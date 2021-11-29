@@ -1,0 +1,206 @@
+.selectModal {
+    border: 0;
+}
+
+.selectModal .ant-modal-content {
+    border: 0;
+}
+
+.selectModal .title {
+    background: #403af4;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
+}
+
+.selectModal .content_wrap {
+    height: 350px;
+    border: 2px solid #403af4;
+    position: relative;
+}
+
+.selectModal .content_wrap .content {
+    height: 100%;
+    width: calc(100% + 100px + 40px);
+    position: relative;
+    z-index: 1;
+    overflow-y: scroll;
+    overflow-x: hidden !important;
+}
+.selectModal .content_wrap .content::-webkit-scrollbar {
+    width: 15px; /*对垂直流动条有效*/
+    background: #000;
+}
+.selectModal .content_wrap .content::-webkit-scrollbar-thumb {
+    background: #3c3d42;
+}
+
+.selectModal h3 {
+    margin: 10px 0;
+}
+
+.selectModal .list_head {
+    border: 2px solid #403af4;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.selectModal .ant-tabs {
+    overflow: inherit;
+}
+
+.selectModal .collapse_wrap{
+    text-align: center;
+    width: calc(100% - 140px + 15px);
+}
+.selectModal .collapse_wrap .ant-collapse-header{
+    padding: 0 !important;
+    border-bottom: 2px solid #403af4;
+}
+.selectModal .collapse_wrap .ant-collapse-header .ant-btn{
+    background: #403af4 !important;
+    border-color: #403af4 !important;
+}
+.selectModal .collapse_wrap .ant-collapse-content{
+    border-bottom: 2px solid #403af4;
+}
+.selectModal .collapse_wrap .ant-table-content{
+    background: #000 !important;
+    color: #fff;
+}
+.selectModal .collapse_wrap .ant-table-content tbody td.ant-table-cell{
+    padding: 0;
+}
+
+.selectModal .collapse_wrap .ant-table-content tbody tr.ant-table-row:nth-child(2n-1){
+    background: gray ;
+}
+.selectModal .collapse_wrap .ant-table-content tbody tr.ant-table-row:hover{
+    background: #2e2aa4;
+}
+.selectModal .collapse_wrap .ant-pagination button,.selectModal .collapse_wrap .ant-pagination li{
+    background: #000;
+}
+.selectModal .collapse_wrap .ant-pagination span,.selectModal .collapse_wrap .ant-pagination svg{
+    color: #fff;
+}
+
+.selectModal .collapse_wrap .ant-collapse-header .anticon-right:nth-child(1){
+    color: #fff;
+}
+.selectModal .collapse_wrap .ant-collapse-header .ant-collapse-extra{
+    position: absolute;
+    float: none !important;
+    right: 15px;
+    bottom: -30px;
+    z-index: 1;
+}
+.selectModal .collapse_wrap .ant-collapse-header .ant-collapse-extra{
+    position: absolute;
+    float: none !important;
+    right: 15px;
+    bottom: -30px;
+    z-index: 1;
+}
+.selectModal .take_order{
+    position: absolute;
+    right: -120px;
+    top: 10px;
+    z-index: 222;
+}
+.selectModal .content>div>div:last-child>div{
+    width: 15px !important;
+    background: gray !important;
+}
+.selectModal .content>div>div:last-child{
+    width: 15px !important;
+    right: 106px !important;
+}
+.selectModal .control{
+    margin-top: 20px;
+}
+.selectModal .control .ant-col:last-child{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.selectModal .control .ant-col:last-child button{
+    background: #403af4;
+    border-color: #403af4;
+}
+.selectModal .control .ant-col .ant-input{
+    background: #000;
+    border: 2px solid #fff;
+}
+.selectModal .control .ant-col .ant-btn{
+    border: 2px solid #fff;
+    font-weight: bolder;
+}
+.selectModal .createOrder .ant-col{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    transform: scale(1.2);
+    align-items: center;
+}
+
+.selectModal .createOrder .ant-col button{
+    margin-right: 10px;
+    border: 2px solid #403af4;
+}
+
+.selectModal .createOrder .ant-col button svg{
+    color: #48c01f;
+}
+.selectModal .erc20Loan{
+    width: 100%;
+
+}
+.selectModal .erc20Loan .item,.selectModal .nft .item{
+    padding: .2rem 0;
+    text-align: center;
+    font-family: AdobeHeitiStd-Regular;
+}
+.selectModal .erc20Loan .item h4,.selectModal .erc20Loan .item p ,.selectModal .nft .item h4 ,.selectModal .nft .item p{
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.selectModal .erc20Loan .item p,.selectModal .nft .item p{
+    color: #403af4;
+}
+.selectModal .nft {
+    width: 100%;
+}
+.selectModal .nft .content{
+    width: 100%;
+    height: 100%;
+    border: 3px solid #403af4;
+}
+.selectModal .nft .title{
+    color: #fff;
+    background: #000000;
+    position: relative;
+    line-height: 1;
+}
+
+.selectModal .nft .rightData{
+    width: 50%;
+}
+.selectModal .nft .last .num{
+    width: 80%;
+    border: 1px solid #403af4;
+    margin: 0 auto;
+    height: 40px;
+    line-height: 40px;
+    color: #707070;
+
+
+}
+.selectModal .nft .ant-slider:before,.selectModal .nft .ant-slider:after{
+    width: 0;
+    height: 0;
+    background: transparent;
+}

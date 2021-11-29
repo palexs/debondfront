@@ -1,0 +1,498 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_SGM_budget_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_SASH_budget_ppm",
+				"type": "uint256"
+			}
+		],
+		"name": "changeCommunityFundSize",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_1st_referral_reward_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_1st_referral_POS_reward_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_2nd_referral_reward_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_2nd_referral_POS_reward_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_first_referral_POS_Threshold_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_second_referral_POS_Threshold_ppm",
+				"type": "uint256"
+			}
+		],
+		"name": "changeReferralPolicy",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "SASH_ppm",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "SGM_ppm",
+				"type": "uint256"
+			}
+		],
+		"name": "changeTeamAllocation",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "SASH_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "SGM_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "claimFundForProposal",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "bond_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "bond_symbol",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Fibonacci_number",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Fibonacci_epoch",
+				"type": "uint256"
+			}
+		],
+		"name": "createBondClass",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tokenA",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tokenB",
+				"type": "address"
+			}
+		],
+		"name": "migratorLP",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "revoke_poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "revoke_proposal_nonce",
+				"type": "uint256"
+			}
+		],
+		"name": "revokeProposal",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_token",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferTokenFromGovernance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "new_bank_address",
+				"type": "address"
+			}
+		],
+		"name": "updateBankContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "new_bond_address",
+				"type": "address"
+			}
+		],
+		"name": "updateBondContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "new_exchange_address",
+				"type": "address"
+			}
+		],
+		"name": "updateExchangeContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "new_governance_address",
+				"type": "address"
+			}
+		],
+		"name": "updateGovernanceContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "poposal_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal_nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "new_token_class",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "new_token_address",
+				"type": "address"
+			}
+		],
+		"name": "updateTokenContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "dev_address",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "gov_address",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

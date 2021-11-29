@@ -1,0 +1,188 @@
+.my-modal{
+    width: 50% !important;
+}
+.my-modal .ant-modal-content {
+    background: #000;
+    border: 2px solid #403af4;
+    color: #fff !important;
+    /*width: 50%;*/
+}
+.my-modal .close_icon{
+    width: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+.my-modal .ant-modal-header {
+    padding: 10px 20px ;
+    background: #403af4;
+    border-radius: 0;
+    border: 0 !important;
+    position: relative;
+    user-select: none;
+}
+
+.my-modal .ant-modal-close {
+    display: none;
+}
+
+.my-modal .ant-modal-title {
+    color: #fff;
+    font-family: Arial-BoldMT, Sans-serif, sans-serif;
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 2px;
+}
+
+.my-modal .ant-modal-footer {
+    display: none;
+}
+.my-modal .ant-modal-body {
+    padding: 0;
+}
+
+.my-modal .ant-select-selector {
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.my-modal .ant-select-arrow {
+    color: #fff;
+}
+
+.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft {
+    background: #000;
+}
+
+.ant-select-item.ant-select-item-option {
+    background: #000;
+    color: #fff;
+    border: 1px solid #403af4;
+}
+
+.ant-select-item.ant-select-item-option {
+    background: rgba(0, 0, 0, .8);
+    color: #fff !important;
+    border: 1px solid #403af4;
+}
+
+.ant-select-item.ant-select-item-option:not(:first-child) {
+    border-top: 0;
+}
+
+.ant-select-item.ant-select-item-option-active {
+    background: rgba(64, 58, 244, 0.82) !important;
+    /*color: #fff;*/
+    /*border: 1px solid #403af4;*/
+}
+
+.ant-select-item.ant-select-item-option-selected {
+    background: rgb(64, 58, 244) !important;
+    /*color: #fff;*/
+    /*border: 1px solid #403af4;*/
+}
+.ant-slider{
+    z-index: 2;
+}
+.ant-slider .ant-slider-step, .ant-slider .ant-slider-rail, .ant-slider .ant-slider-track {
+    height: 5px;
+}
+
+.ant-slider .ant-slider-track {
+    background: #403af4 !important;
+}
+.ant-slider .ant-slider-rail {
+    background: #6f6ce3 !important;
+}
+
+.ant-slider .ant-slider-handle {
+    width: 12px;
+    height: 12px;
+    border-width:4px;
+    border-color: #403af4 !important;
+    z-index: 2;
+    top: 6px;
+}
+
+.ant-slider .ant-slider-handle.ant-tooltip-open {
+    border-color: #403af4 !important;
+}
+
+.ant-slider:after, .ant-slider:before {
+    content: '';
+    width: 5px;
+    height: 16px;
+    background: #403af4;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+}
+.ant-slider:after{
+    right: -5px;
+}
+.ant-slider:before{
+    left: -5px;
+}
+.my-modal .ant-tabs-nav:before{
+    border: 0 !important;
+}
+.my-modal .ant-tabs-nav-list .ant-tabs-tab{
+    color: #555 ;
+    width: 100px !important;
+    text-align: center !important;
+}
+/*#423EF3*/
+.my-modal .ant-tabs-nav-list .ant-tabs-tab.ant-tabs-tab-active{
+    color: #fff !important;
+}
+.my-modal .ant-tabs-nav-list .ant-tabs-tab .ant-tabs-tab-btn{
+    margin: 0 auto;
+}
+
+.my-modal .ant-tabs-tabpane.ant-tabs-tabpane-active{
+    color: #fff;
+}
+
+.my-modal .buyDbitBond_wrap .ant-input-affix-wrapper{
+    height: .4rem;
+    border: 2px solid #403af4;
+    background: transparent;
+    color: #fff;
+    text-align: center;
+    width: 1.15rem;
+}
+.my-modal .buyDbitBond_wrap .ant-input-affix-wrapper input{
+    background: #000;
+    color: #fff;
+    width: auto;
+    text-align: center;
+}
+
+@media (max-width: 1300px)  {
+    .my-modal{
+        width: 70% !important;
+    }
+}
+
+@media (max-width: 750px) {
+    .my-modal{
+        width: 95% !important;
+    }
+    .my-modal .close_icon{
+        right: 10px;
+    }
+    .my-modal .buyDbitBond_wrap .ant-input-affix-wrapper {
+        height: .8rem;
+        width: 2rem;
+    }
+    .my-modal .ant-tabs-nav-list .ant-tabs-tab {
+        width: auto !important;
+    }
+
+}

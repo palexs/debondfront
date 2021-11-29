@@ -1,0 +1,28 @@
+[
+  {
+    "inputs": [],
+    "name": "getOutputData",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "test2",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPropsoalsData",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "test",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]

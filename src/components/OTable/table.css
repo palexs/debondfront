@@ -1,0 +1,31 @@
+.BondsTables{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.BondsTables .ant-table{
+    background: transparent !important;
+}
+.BondsTables .ant-table-cell{
+    color: #fff;
+    font-size: 16px;
+}
+.BondsTables .ant-table-row:nth-child(2n-1){
+    background: #3c3d42 !important;
+}
+.BondsTables .ant-pagination a,
+.BondsTables .ant-pagination svg{
+    color: #fff !important;
+}
+.BondsTables .ant-pagination-item-active{
+    background: transparent !important;
+    border:1px solid #fff !important;
+}
+@media (max-width: 750px) {
+    .BondsTables{
+        width: 95%;
+    }
+    .BondsTables .ant-table-cell{
+        font-size: 20px !important;
+    }
+}

@@ -1,0 +1,967 @@
+[
+	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "auctionStatus",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionTimestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "bondAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondClass",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondNonce",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondAmount",
+						"type": "uint256[]"
+					}
+				],
+				"internalType": "struct ISigmoidExchange.AUCTION",
+				"name": "_auction",
+				"type": "tuple"
+			}
+		],
+		"name": "addAuction",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_auctionId",
+				"type": "uint256"
+			}
+		],
+		"name": "bid",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auctionId",
+				"type": "uint256"
+			}
+		],
+		"name": "cancelAuction",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_seller",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_auctionDuration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_interestRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_loanDuration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "createERC20Loan",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_auctionStatus",
+				"type": "bool"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_seller",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_buyer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_auctionDuration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_interestRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_loanDuration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_tokenAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "handleRepay",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_contract_is_active",
+				"type": "bool"
+			}
+		],
+		"name": "isActive",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"name": "migratorToken",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "bank_address",
+				"type": "address"
+			}
+		],
+		"name": "setBankContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "bond_address",
+				"type": "address"
+			}
+		],
+		"name": "setBondContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "governance_address",
+				"type": "address"
+			}
+		],
+		"name": "setGovernanceContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "SASH_contract_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "SGM_contract_address",
+				"type": "address"
+			}
+		],
+		"name": "setTokenContract",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_seller",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_auctionDuration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_interestRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_loanDuration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "takeOrder",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferTo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "governance_address",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "bank_contract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "bond_contract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "contract_is_active",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_price",
+				"type": "uint256"
+			}
+		],
+		"name": "determineFinalPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "dev_address",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "indexStart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "indexEnd",
+				"type": "uint256"
+			}
+		],
+		"name": "getAuction",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "auctionStatus",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionTimestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "bondAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondClass",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondNonce",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondAmount",
+						"type": "uint256[]"
+					}
+				],
+				"internalType": "struct ISigmoidExchange.AUCTION[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auctionId",
+				"type": "uint256"
+			}
+		],
+		"name": "getBidPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "indexStart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "indexEnd",
+				"type": "uint256"
+			}
+		],
+		"name": "getERC20LoanAuction",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "auctionStatus",
+						"type": "bool"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionTimestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "bondAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "interestRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "loanDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondClass",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondNonce",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondAmount",
+						"type": "uint256[]"
+					}
+				],
+				"internalType": "struct ISigmoidExchange.ERC20LOAN[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_auctionId",
+				"type": "uint256"
+			}
+		],
+		"name": "getERC20LoanBidPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_seller",
+				"type": "address"
+			}
+		],
+		"name": "getERC20LoanSuccess",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "auctionStatus",
+						"type": "bool"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionTimestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "bondAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "interestRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "loanDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondClass",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondNonce",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondAmount",
+						"type": "uint256[]"
+					}
+				],
+				"internalType": "struct ISigmoidExchange.ERC20LOAN[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_seller",
+				"type": "address"
+			}
+		],
+		"name": "getERC20LoanSuccessLen",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "auctionStatus",
+						"type": "bool"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionTimestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "auctionDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "bondAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "interestRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "loanDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondClass",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondNonce",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "bondAmount",
+						"type": "uint256[]"
+					}
+				],
+				"internalType": "struct ISigmoidExchange.ERC20LOAN",
+				"name": "_ERC20Loan",
+				"type": "tuple"
+			}
+		],
+		"name": "getNowBidPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "governance_contract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "SASH_contract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "SGM_contract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
