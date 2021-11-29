@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Modal} from "antd";
-import PropTypes from "prop-types";
-import "./css/modal.css"
-import {Close, Refresh} from "../Icon/Icon";
+import React, { Component } from 'react';
+import { Modal } from 'antd';
+import PropTypes from 'prop-types';
+import './css/modal.css';
+import { Close, Refresh } from '../Icon/Icon';
 
 type IMyComponentProps = {
   visible:boolean,
@@ -14,11 +14,25 @@ type IMyComponentProps = {
 }
 class MyModal extends Component<IMyComponentProps> {
   public render() {
-    const {visible,title,children,onCancel,refresh} = this.props;
+    const {
+      visible, title, children, onCancel, refresh,
+    } = this.props;
     return (
-      <Modal className={'my-modal'}
-             maskClosable={false}
-             title={<>{title}<Refresh style={{cursor: 'pointer'}} spinning={this.props.spinning} refresh={refresh}/> <Close className="close_icon" onClick={this.props.onCancel} /></> } visible={visible} onCancel={onCancel}  okButtonProps={{ disabled: true }}>
+      <Modal
+        className="my-modal"
+        maskClosable={false}
+        title={(
+          <>
+            {title}
+            <Refresh style={{ cursor: 'pointer' }} spinning={this.props.spinning} refresh={refresh} />
+            {' '}
+            <Close className="close_icon" onClick={this.props.onCancel} />
+          </>
+)}
+        visible={visible}
+        onCancel={onCancel}
+        okButtonProps={{ disabled: true }}
+      >
         {children}
       </Modal>
     );

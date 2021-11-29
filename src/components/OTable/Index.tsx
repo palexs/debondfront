@@ -1,40 +1,42 @@
-import React, {Component} from 'react';
-import './table.css'
-import {Table} from "antd";
-import {bar_styles, make_bar} from "../../eigma-cash/format_util";
-import moment from "moment";
-import Loading from '../../components/loading/index';
-import {Contract} from "ethers";
-import abiTest from "../../eigma-cash/testAbi/test.json";
-import config from "../../config-production";
+import React, { Component } from 'react';
+import './table.css';
+import { Table } from 'antd';
+import moment from 'moment';
+import { Contract } from 'ethers';
+import { bar_styles, make_bar } from '../../eigma-cash/format_util';
+import Loading from '../loading/index';
+import abiTest from '../../eigma-cash/testAbi/test.json';
+import config from '../../config-production';
 
-
-const address = config.testAddress['test'][0];
+const address = config.testAddress.test[0];
 const columns = [
   {
-    title: (<>N <sup style={{fontSize:10}}>o</sup></>),
-    dataIndex: "N",
-    width: 100
+    title: (<>
+      N
+      <sup style={{ fontSize: 10 }}>o</sup>
+            </>),
+    dataIndex: 'N',
+    width: 100,
   },
   {
-    title: "ETA",
-    dataIndex: "ETA",
-    width: 100
+    title: 'ETA',
+    dataIndex: 'ETA',
+    width: 100,
   },
   {
-    title: "PROGRESS",
-    dataIndex: "Progress",
-    width: 300
+    title: 'PROGRESS',
+    dataIndex: 'Progress',
+    width: 300,
   },
   {
-    title: "IN SASH",
-    dataIndex: "sash",
-    width: 100
+    title: 'IN SASH',
+    dataIndex: 'sash',
+    width: 100,
   },
   {
-    title: "IN USD",
-    dataIndex: "usd",
-    width: 100
+    title: 'IN USD',
+    dataIndex: 'usd',
+    width: 100,
   },
 ];
 type Props = {
@@ -43,35 +45,38 @@ type Props = {
 }
 class Index extends Component<Props> {
   state = {
-    dataSource :[],
-    mobile:false,
+    dataSource: [],
+    mobile: false,
     loading: false,
-  }
+  };
+
   componentDidMount() {
-    window.addEventListener('resize', this.handleResize.bind(this)) //监听窗口大小改变
-    let clientW = document.documentElement.clientWidth;
+    window.addEventListener('resize', this.handleResize.bind(this)); // 监听窗口大小改变
+    const clientW = document.documentElement.clientWidth;
     this.handleClientW(clientW, 750);
-    if (this.props.refresh){
-      this.getData()
-    }
-  }
-  handleResize = (e: any) => {
-    let e_width = e.target.innerWidth;
-    this.handleClientW(e_width, 750);
-  }
-  handleClientW = (width: any, num: any) => {
-    if (width > num) {
-      this.setState({
-        mobile: false
-      })
-    }else{
-      this.setState({
-        mobile: true
-      })
+    if (this.props.refresh) {
+      this.getData();
     }
   }
 
-  public generateDataSource= ()=>{
+  handleResize = (e: any) => {
+    const e_width = e.target.innerWidth;
+    this.handleClientW(e_width, 750);
+  };
+
+  handleClientW = (width: any, num: any) => {
+    if (width > num) {
+      this.setState({
+        mobile: false,
+      });
+    } else {
+      this.setState({
+        mobile: true,
+      });
+    }
+  };
+
+  public generateDataSource = () => {
     // const dataSource = [];
   /*  for (let i = 0; i < 15; i++) {
       dataSource.push({
@@ -81,82 +86,97 @@ class Index extends Component<Props> {
         sash:(Math.random()*1000).toFixed(5),
         usd:(Math.random()*1000).toFixed(5),
       })
-    }*/
+    } */
     const dataSource = [
       {
-        nonce:1,
-        eta:"20-12-2021",
-        progress:20,
-        sash:424412.121321,
-        usd:45134.4454,
+        nonce: 1,
+        eta: '20-12-2021',
+        progress: 20,
+        sash: 424412.121321,
+        usd: 45134.4454,
       },
       {
-        nonce:2,
-        eta:"20-2-2022",
-        progress:20,
-        sash:424412.121321,
-        usd:45134.4454,
+        nonce: 2,
+        eta: '20-2-2022',
+        progress: 20,
+        sash: 424412.121321,
+        usd: 45134.4454,
       },
       {
-        nonce:4,
-        eta:"20-2-2022",
-        progress:20,
-        sash:42912.121321,
-        usd:45134.4454,
+        nonce: 4,
+        eta: '20-2-2022',
+        progress: 20,
+        sash: 42912.121321,
+        usd: 45134.4454,
       },
       {
-        nonce:6,
-        eta:"20-5-2022",
-        progress:20,
-        sash:784412.121321,
-        usd:45134.4454,
+        nonce: 6,
+        eta: '20-5-2022',
+        progress: 20,
+        sash: 784412.121321,
+        usd: 45134.4454,
       },
       {
-        nonce:7,
-        eta:"20-8-2022",
-        progress:20,
-        sash:478975412.12167,
-        usd:67134.445564,
+        nonce: 7,
+        eta: '20-8-2022',
+        progress: 20,
+        sash: 478975412.12167,
+        usd: 67134.445564,
       },
-    ]
+    ];
+  };
 
-  }
-  public getData = async ()=> {
-
-    this.setState({loading: true})
-    console.log("address",address)
+  public getData = async () => {
+    this.setState({ loading: true });
+    console.log('address', address);
     const Bank = new Contract(address, abiTest, this.props.provider);
-    console.log("Bank>>>",Bank)
+    console.log('Bank>>>', Bank);
     const dataSource = await Bank.getOutputData();
     this.setState({
-      dataSource:JSON.parse(dataSource),
-      loading: false
-    })
+      dataSource: JSON.parse(dataSource),
+      loading: false,
+    });
     // this.setState({
     //   dataSource,
     // })
-  }
+  };
+
   render() {
     return (
-      <div style={{position: 'relative'}}>
-      <Loading loading={this.state.loading} />
-      <Table
-        className={`BondsTables tables`}
-        bordered={false}
-        size="small"
-        tableLayout={"fixed"}
-        showHeader
+      <div style={{ position: 'relative' }}>
+        <Loading loading={this.state.loading} />
+        <Table
+          className="BondsTables tables"
+          bordered={false}
+          size="small"
+          tableLayout="fixed"
+          showHeader
         // columns={columns}
-        dataSource={this.state.dataSource}
-      >
-        <Table.Column title={<>N<sup>o</sup></>}  dataIndex="nonce" key="nonce" />
-        <Table.Column title={<>ETA</>}  dataIndex="eta" key="eta" />
-        <Table.Column width={"50%"} title={<>PROGRESS</>}  dataIndex="progress" key="progress" render={(tags)=>(
-          make_bar(tags,bar_styles[8],this.state.mobile&&10||25,this.state.mobile&&10||25).str
-        )} />
-        <Table.Column title={<>DBIT</>}  dataIndex="sash" key="sash" />
-        <Table.Column title={<>USD</>}  dataIndex="usd" key="usd" />
-      </Table>
+          dataSource={this.state.dataSource}
+        >
+          <Table.Column
+            title={(
+              <>
+                N
+                <sup>o</sup>
+              </>
+)}
+            dataIndex="nonce"
+            key="nonce"
+          />
+          <Table.Column title={<>ETA</>} dataIndex="eta" key="eta" />
+          <Table.Column
+            width="50%"
+            title={<>PROGRESS</>}
+            dataIndex="progress"
+            key="progress"
+            render={(tags) => (
+              make_bar(tags, bar_styles[8], this.state.mobile && 10 || 25, this.state.mobile && 10 || 25).str
+            )}
+          />
+          <Table.Column title={<>DBIT</>} dataIndex="sash" key="sash" />
+          <Table.Column title={<>USD</>} dataIndex="usd" key="usd" />
+        </Table>
       </div>
     );
   }

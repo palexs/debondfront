@@ -11,8 +11,8 @@ const configurations: { [env: string]: any } = {
       'GOC_HUSD-LP': ['0xC33F68fBBCB529faB10aB5FcFD77BaD7cE9fbfFA', 18],
       'HT_HUSD-GLP': ['0xBe963435F750bB60e45fFa98318E74ea6E3aC0d7', 18],
       'GOT_HUSD-GLP': ['0xC31b9f33fB2C54B789C263781CCEE9b23b747677', 18],
-      TEST:['0x5C842C05BE04eA595a16bAc01fd523014433F146',18],
-      BANKTEST:['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A',18],
+      TEST: ['0x5C842C05BE04eA595a16bAc01fd523014433F146', 18],
+      BANKTEST: ['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A', 18],
     },
     baseLaunchDate: new Date('2020-11-26T00:00:00Z'),
     bondLaunchesAt: new Date('2020-12-03T15:00:00Z'),
@@ -32,12 +32,11 @@ const configurations: { [env: string]: any } = {
       USDT: ['0x0B85692a66fF158c125174d884aB4a0633C592B6', 6],
       BNB: ['0x0B85692a66fF158c125174d884aB4a0633C592B6', 18],
       MDX: ['0x0B85692a66fF158c125174d884aB4a0633C592B6', 18],
-      TEST:['0x5C842C05BE04eA595a16bAc01fd523014433F146',18],
-      BANKTEST:['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A',18],
-    }
+      TEST: ['0x5C842C05BE04eA595a16bAc01fd523014433F146', 18],
+      BANKTEST: ['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A', 18],
+    },
   },
 };
 
-
 // export default configurations[process.env.NODE_ENV || "development"];
-export default configurations["production"];
+export default configurations.production;

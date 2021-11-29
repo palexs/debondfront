@@ -1,1 +1,1 @@
-import imgArr from "@img";
+import imgArr from '@img';

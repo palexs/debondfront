@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from '@views/Loan/css/loan.module.css';
 import Content from './components/Content';
+
 type LoanProps = {
   provider:any
 }
-
 
 class Loan extends Component<LoanProps> {
   render() {

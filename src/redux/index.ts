@@ -1,13 +1,11 @@
-import {createStore} from 'redux'
+import { createStore } from 'redux';
 
-
-function reducer(state: any, action: { type: any; accountAddress: any; }):any {
-  if(action.type){
+function reducer(state: any, action: { type: any, accountAddress: any }):any {
+  if (action.type) {
     state = action.accountAddress;
-    return state
-  } else {
-    return state
+    return state;
   }
+  return state;
 }
-const store = createStore(reducer,{})
-export default store
+const store = createStore(reducer, {});
+export default store;
