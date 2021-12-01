@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Bank as Banks } from './views/bank/Bank';
@@ -13,37 +13,32 @@ import styles from './views/bank/css/bank.module.css';
 import Info from './views/info/Info';
 import Loan from './views/Loan/Loan';
 
-type IMyComponentState = {
+type State = {
   provider: any,
-  mobile:boolean
 };
 
-type IMyComponentProps = {};
+type Props = any;
 const { Content } = Layout;
 
-export class App extends React.Component<IMyComponentProps,
-  IMyComponentState> {
-  public constructor(props?: any) {
+export class App extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       provider: null,
-      mobile: false,
     };
   }
 
-  public setProvider = (provider: any) => {
+  setProvider = (provider: any) => {
     this.setState({
       provider,
     });
   };
 
-  public render() {
-    // /background: "linear-gradient(#000 60%, #1f1c20)",
+  render() {
     return (
-      <Layout className="container_main" style={{}}>
+      <Layout className="container_main">
         <Content>
           <Router basename="/">
-            {/* <div className={styles.header}><HeaderNav provider={this.setProvider}/></div> */}
             <Switch>
               <Route path="/" exact>
                 <Info />
