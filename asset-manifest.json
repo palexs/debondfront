@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/debondfront/static/css/main.9584e0d1.chunk.css",
-    "main.js": "/debondfront/static/js/main.081ddaa4.chunk.js",
+    "main.js": "/debondfront/static/js/main.4d597af8.chunk.js",
     "runtime-main.js": "/debondfront/static/js/runtime-main.d9747472.js",
     "static/css/2.eeee29c1.chunk.css": "/debondfront/static/css/2.eeee29c1.chunk.css",
     "static/js/2.518341b4.chunk.js": "/debondfront/static/js/2.518341b4.chunk.js",
@@ -22,6 +22,6 @@
     "static/css/2.eeee29c1.chunk.css",
     "static/js/2.518341b4.chunk.js",
     "static/css/main.9584e0d1.chunk.css",
-    "static/js/main.081ddaa4.chunk.js"
+    "static/js/main.4d597af8.chunk.js"
   ]
 }
