@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import Web3 from 'web3';
 import { BigNumber, Contract, utils } from 'ethers';
 import { notification, Input } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
@@ -14,12 +13,17 @@ import buySashBond from '../css/buySashBond.module.css';
 import cir from '../../../assets/cir.png';
 import cir1 from '../../../assets/circ1.png';
 import particle from '../../../assets/particle.gif';
-import Store from '../../../redux/index';
 import TradingInterface from '../../../components/TradingInterface/TradingInterface';
 import ClaimAirdrop from '../../../components/ClaimAirdrop/ClaimAirdrop';
 import Deposit from '../../../components/Deposit/Deposit';
 
-type IMyComponentState = {
+const abiERC20 = require('../../../eigma-cash/deployments/ERC20.json');
+const abiSASHTOKEN = require('../../../eigma-cash/deployments/SASHTOKEN.json');
+const abiRouter = require('../../../eigma-cash/deployments/uniswapRouter.json');
+const abiBank = require('../../../eigma-cash/deployments/bank.json');
+const abiClaim = require('../../../eigma-cash/deployments/claim.json');
+
+type State = {
   value: string;
   isModalVisible: boolean;
   disIsModal: boolean;
@@ -41,27 +45,44 @@ type IMyComponentState = {
   bondSpinning: boolean,
   depositType:string
 }
-type IMyComponentProps = {
+type Props = {
   provider: any
 }
 
 // const windowNew = window as any;/
-export class Content extends React.Component<IMyComponentProps, IMyComponentState> {
-  public provider: any;
+export class Content extends Component<Props, State> {
+  static getCurrentAddressData = (address: string, list: string[]): {
+    index: number, amount: string, address: string,
+  } | null => {
+    const count = list ? list.length : 0;
+    for (let i = 0; i < count; i++) {
+      const unit = list[i];
+      const childList = unit.split(/,/g);
+      if (address === childList[4]) {
+        return {
+          index: i, // childList[0],
+          amount: childList[5].trim(),
+          address: childList[4],
+        };
+        break;
+      }
+    }
+    return null;
+  };
 
-  public tree: any;
+  provider: any;
 
-  public list: Array<any>;
+  list: any[];
 
-  public contracts: any;
+  contracts: any;
 
-  public currentAddress: any;
+  currentAddress?: string;
 
-  public externalTokens: any;
+  externalTokens: any;
 
   private Child: any;
 
-  public constructor(props?: any) {
+  constructor(props: any) {
     super(props);
     this.Child = React.createRef();
     this.state = {
@@ -101,13 +122,13 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
     this.init(this.props.provider);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: any) {
-    if (this.state.provider != nextProps.provider) {
-      this.init(nextProps.provider);
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+    if (this.state.provider !== this.props.provider) {
+      this.init(this.props.provider);
     }
   }
 
-  public async init(provider: any) {
+  init = async (provider: any) => {
     let mintingCost;
     let currentPrice;
     let totalSupply;
@@ -115,11 +136,8 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
     if (!provider) {
       return;
     }
-    const abi = require('../../../eigma-cash/deployments/SASHTOKEN.json');
-    const abiRouter = require('../../../eigma-cash/deployments/uniswapRouter.json');
-    const abiBank = require('../../../eigma-cash/deployments/bank.json');
     if (this.provider) {
-      this.contracts.SASHTOKEN = new Contract(this.externalTokens.SASHTOKEN[0], abi, this.provider);
+      this.contracts.SASHTOKEN = new Contract(this.externalTokens.SASHTOKEN[0], abiSASHTOKEN, this.provider);
       totalSupply = await this.contracts.SASHTOKEN.totalSupply();
       this.contracts.uniswapRouter = new Contract(this.externalTokens.uniswapRouter[0], abiRouter, this.provider);
       const unit = '1000000000000000000';
@@ -138,10 +156,9 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
       mintingCost,
       provider,
     });
-    return this.provider;
-  }
+  };
 
-  public deposit = async () => {
+  deposit = async () => {
     if (!this.provider) {
       alert('No wallet connected');
       return;
@@ -153,13 +170,13 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
     });
   };
 
-  public deposit1 = async () => {
+  deposit1 = async () => {
     if (!this.provider) {
       alert('No wallet connected');
       return;
     }
 
-    handleBalance().then((res: any) => {
+    handleBalance().then((res: { chainId: number, balance: string, address: string}) => {
       this.setState({
         allBalance: getBalance(BigNumber.from(res.balance)),
       });
@@ -174,12 +191,10 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
   };
 
   public claimAirdrop = async () => {
-    let unit;
     const privateAddress = await this.provider.getAddress();
-
     const arrayList = [];
-    const htmlobj = await axios.get('/airdrop_list.csv');
-    const text = htmlobj.data;
+    const htmlObj = await axios.get('/airdrop_list.csv');
+    const text = htmlObj.data;
     const textList = text.split(/[\n]/g);
     const count = textList ? textList.length : 0;
 
@@ -190,41 +205,207 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
     if (!isCheck) {
       return;
     }
+    const result = Content.getCurrentAddressData(privateAddress, textList);
+    if (!result) {
+      return;
+    }
+
     for (let i = 0; i < count; i++) {
-      const newObject = {} as any;
-      unit = textList[i];
-      const childList = unit.split(/,/g);
-      newObject.account = childList[4];
-      newObject.amount = BigNumber.from(childList[5] | 0);
-      arrayList.push(newObject);
+      const childList = textList[i].split(/,/g);
+      arrayList.push({
+        account: childList[4],
+        amount: BigNumber.from(childList[5].trim() || 0),
+      });
     }
     this.list = arrayList;
-    this.tree = new BalanceTree(this.list);
-    const hexRoot = this.tree.getHexRoot();
+    const tree = new BalanceTree(this.list);
+    // const hexRoot = tree.getHexRoot();
 
-    unit = this.currentAddress;
-    const proof0 = this.tree.getProof(unit.index | 0, unit.address, BigNumber.from(unit.amount | 0));
-    const abi = require('../../../eigma-cash/deployments/claim.json');
-    this.contracts.claim = new Contract(this.externalTokens.claim[0], abi, this.provider);
-    const claim = await this.contracts.claim.claimAirdrop(proof0, unit.index | 0, unit.address, BigNumber.from(unit.amount | 0));
+    const { index, address, amount } = result;
+    const proof0 = tree.getProof(index || 0, address, BigNumber.from(amount || 0));
+    this.contracts.claim = new Contract(this.externalTokens.claim[0], abiClaim, this.provider);
+    const claim = await this.contracts.claim.claimAirdrop(proof0, index || 0, address, BigNumber.from(amount || 0));
+  };
+
+  // OK in the pop-up box
+  handleDisOk = () => {
+    this.setState({
+      disIsModal: false,
+    });
+  };
+
+  // Cancel of the dialog box is displayed
+  handleDisCancel = () => {
+    this.setState({
+      disIsModal: false,
+    });
+  };
+
+  // OK in the pop-up box
+  // handleOk = () => {
+  //   this.setState({
+  //     isModalVisible: false,
+  //   });
+  // };
+
+  onCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  // handleClose = () => {
+  //   // console.log()
+  //   this.onCancel();
+  // };
+  //
+  // handleRefresh = () => {
+  //   this.forceUpdate();
+  // };
+
+  // 弹出框的cancel
+  // handleCancel = () => {
+  //   this.setState({
+  //     isModalVisible: false,
+  //   });
+  // };
+
+  handleCurrency = (e: any, i: number, type: string) => {
+    this.setState({
+      currencyType: type,
+      balance: 0,
+      stepSize: 0,
+    });
+    const unit = '100000000000000000000000000';
+    const mountIn = BigNumber.from(unit);
+  };
+
+  handleRangeChange = (value: number) => {
+    this.setState({
+      stepSize: value,
+      balance: value,
+    });
+  };
+
+  handleSashClose = () => {
+    this.setState({
+      sashModalStatus: false,
+    });
+  };
+
+  handleDeposit = () => {
+    this.setState({
+      depositStatus: true,
+    });
+    this.init(this.props.provider);
+  };
+
+  handleDepositClose = () => {
+    this.setState({
+      depositStatus: false,
+    });
+  };
+
+  approve = async () => {
+    if (!this.currentAddress) {
+      notification.open({
+        message: 'No wallet connected',
+        description: 'Please click the Connect Wallet button first',
+        icon: <WarningOutlined style={{ color: '#faad14' }} />,
+      });
+      return;
+    }
+
+    if (this.provider && this.currentAddress) {
+      this.contracts.ERC20 = new Contract(this.currentAddress, abiERC20, this.provider);
+      const unit = '100000000000000000000000000';
+      const mountIn = BigNumber.from(unit);
+      const approve = await this.contracts.ERC20.approve(this.externalTokens.bank[0], mountIn);
+      this.setState({
+        isApprove: false,
+      });
+    }
+  };
+
+  swap = async () => {
+    let amount: any;
+    let mintingCost: any;
+    if (!this.provider) {
+      alert('No wallet connected');
+      return;
+    }
+    const value = this.state.currencyType;
+    if (value === 'BNB') {
+      this.contracts.bank.getBondExchangeRateUSDtoSASH('100000000000000000000').then((res: any) => {
+        console.log(res);
+      }, (error: any) => console.error(error));
+      this.contracts.bank
+        .buySASHBondWithETH(
+          this.currentAddress,
+          this.state.amount,
+          [this.externalTokens.BNB[0],
+            this.externalTokens.USDT[0]],
+          { value: utils.parseEther(this.state.amount) },
+        ).then((res: any) => {
+          console.log(res);
+        }, (error: any) => console.error(error));
+    } else if (value === 'USDT') {
+      amount = parseFloat(this.state.amount);
+      amount *= 10 ** 5;
+      amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(13));
+      this.contracts.bank.buySASHBondWithUSD(this.externalTokens.USDT[0], this.currentAddress, amount);
+    } else {
+      amount = parseFloat(this.state.amount);
+      amount *= 10 ** 5;
+      amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(13));
+      mintingCost = await this.contracts.bank.buySASHBondWithToken(this.currentAddress, amount, BigNumber.from('1'), [this.currentAddress, this.externalTokens.BNB[0], this.externalTokens.USDT[0]]);
+    }
+  };
+
+  setAmount = (e: any) => {
+    if (e.target.value <= 0) {
+      this.setState({
+        amount: 0,
+      });
+      return;
+    }
+    this.setState({
+      amount: e.target.value,
+    });
+    // this.amount = e.currentTarget.value;
+  };
+
+  refresh = () => {
+    this.setState({
+      amount: 0,
+    });
+  };
+
+  refreshBond = async () => {
+    this.setState({
+      bondSpinning: true,
+    });
+    await this.Child.current.getInputData();
+    setTimeout(() => {
+      this.setState({
+        bondSpinning: false,
+      });
+    }, 800);
   };
 
   // Check whether the address exists
-  public checkAddress(address: string, list: any) {
-    const count = list ? list.length : 0;
+  checkAddress = (address: string, list: string[]) => {
     let bool = false;
-    let amount = 0;
+    let amount = BigNumber.from(0);
+    const count = list ? list.length : 0;
     for (let i = 0; i < count; i++) {
       const unit = list[i];
       const childList = unit.split(/,/g);
-      if (address == childList[4]) {
-        const objectNew = {} as any;
-        objectNew.index = childList[0];
-        objectNew.address = childList[4];
-        objectNew.amount = childList[5];
-        amount = childList[5] | 0;
-        this.currentAddress = objectNew;
+      if (address === childList[4]) {
+        this.currentAddress = childList[4];
+        amount = BigNumber.from(childList[5].trim() || 0);
         bool = true;
+        break;
       }
     }
     if (!bool) {
@@ -239,183 +420,6 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
       amount,
     });
     return true;
-  }
-
-  // OK in the pop-up box
-  public handleDisOk = () => {
-    this.setState({
-      disIsModal: false,
-    });
-  };
-
-  // Cancel of the dialog box is displayed
-  public handleDisCancel = () => {
-    this.setState({
-      disIsModal: false,
-    });
-  };
-
-  // OK in the pop-up box
-  public handleOk = () => {
-    this.setState({
-      isModalVisible: false,
-    });
-  };
-
-  public onCancel = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-
-  public handleClose = () => {
-    // console.log()
-    this.onCancel();
-  };
-
-  public handleRefresh = () => {
-    this.forceUpdate();
-  };
-
-  // 弹出框的cancel
-  public handleCancel = () => {
-    this.setState({
-      isModalVisible: false,
-    });
-  };
-
-  public getChainId = async (address: any) => {
-    const web3 = new Web3('https://http-mainnet.hecochain.com');
-    const balance = await web3.eth.getBalance(address);
-    const chainId = await web3.eth.getChainId();
-    return { chainId, balance, address };
-  };
-
-  public handleCurrency = (e: any, i: number, type: string) => {
-    this.setState({
-      currencyType: type,
-      balance: 0,
-      stepSize: 0,
-    });
-    const unit = '100000000000000000000000000';
-    const mountIn = BigNumber.from(unit);
-  };
-
-  public handleRangeChange = (value: number) => {
-    this.setState({
-      stepSize: value,
-      balance: value,
-    });
-  };
-
-  public handleSashClose = () => {
-    this.setState({
-      sashModalStatus: false,
-    });
-  };
-
-  public handleDeposit = () => {
-    this.setState({
-      depositStatus: true,
-    });
-    this.init(this.props.provider);
-  };
-
-  public handleDepositClose = () => {
-    this.setState({
-      depositStatus: false,
-    });
-  };
-
-  public approve = async () => {
-    if (!this.currentAddress) {
-      notification.open({
-        message: 'No wallet connected',
-        description: 'Please click the Connect Wallet button first',
-        icon: <WarningOutlined style={{ color: '#faad14' }} />,
-      });
-      return;
-    }
-    const abi = require('../../../eigma-cash/deployments/ERC20.json');
-
-    if (this.provider && this.currentAddress) {
-      this.contracts.ERC20 = new Contract(this.currentAddress, abi, this.provider);
-      const unit = '100000000000000000000000000';
-      const mountIn = BigNumber.from(unit);
-      const approve = await this.contracts.ERC20.approve(this.externalTokens.bank[0], mountIn);
-      this.setState({
-        isApprove: false,
-      });
-    }
-  };
-
-  public swap = async () => {
-    let amount: any;
-    let mintingCost: any;
-    if (!this.provider) {
-      alert('No wallet connected');
-      return;
-    }
-    const value = this.state.currencyType;
-    if (value == 'BNB') {
-      this.contracts.bank.getBondExchangeRateUSDtoSASH('100000000000000000000').then((res: any) => {
-
-      }, (error: any) => {
-      });
-      this.contracts.bank
-        .buySASHBondWithETH(
-          this.currentAddress,
-          this.state.amount,
-          [this.externalTokens.BNB[0],
-            this.externalTokens.USDT[0]],
-          { value: utils.parseEther(this.state.amount) },
-        ).then((res: any) => {
-
-        }, (error: any) => {
-
-        });
-    } else if (value == 'USDT') {
-      amount = parseFloat(this.state.amount);
-      amount *= 10 ** 5;
-      amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(13));
-      this.contracts.bank.buySASHBondWithUSD(this.externalTokens.USDT[0], this.currentAddress, amount);
-    } else {
-      amount = parseFloat(this.state.amount);
-      amount *= 10 ** 5;
-      amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(13));
-      mintingCost = await this.contracts.bank.buySASHBondWithToken(this.currentAddress, amount, BigNumber.from('1'), [this.currentAddress, this.externalTokens.BNB[0], this.externalTokens.USDT[0]]);
-    }
-  };
-
-  public setAmount = (e: any) => {
-    if (e.target.value <= 0) {
-      this.setState({
-        amount: 0,
-      });
-      return;
-    }
-    this.setState({
-      amount: e.target.value,
-    });
-    // this.amount = e.currentTarget.value;
-  };
-
-  public refresh = () => {
-    this.setState({
-      amount: 0,
-    });
-  };
-
-  public refreshBond = async () => {
-    this.setState({
-      bondSpinning: true,
-    });
-    await this.Child.current.getInputData();
-    setTimeout(() => {
-      this.setState({
-        bondSpinning: false,
-      });
-    }, 800);
   };
 
   render() {
@@ -448,12 +452,8 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
             <span>Buy DBIT Bonds</span>
           </div>
           <div onClick={this.claimAirdrop} className={styles.but1} style={{ margin: '20px 0' }}>
-            {/* <div onClick={this.deposit1} className={styles.but1} style={{margin: '20px 0'}}> */}
             <span>Claim Airdrop</span>
           </div>
-          {/* <div onClick={this.claimAirdrop} className={styles.but1} style={{margin: '20px 0'}}>
-            <span>Claim Airdrop</span>
-          </div> */}
           <div className={styles.but2}>
             <span>Bond Index Info</span>
           </div>
