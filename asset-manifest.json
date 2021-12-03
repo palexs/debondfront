@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "./static/css/main.829d29ed.chunk.css",
-    "main.js": "./static/js/main.b02516d3.chunk.js",
-    "runtime-main.js": "./static/js/runtime-main.be4d616c.js",
-    "static/css/2.9283591b.chunk.css": "./static/css/2.9283591b.chunk.css",
-    "static/js/2.f76aed61.chunk.js": "./static/js/2.f76aed61.chunk.js",
-    "static/js/3.f42a02e8.chunk.js": "./static/js/3.f42a02e8.chunk.js",
-    "index.html": "./index.html",
-    "static/js/2.f76aed61.chunk.js.LICENSE.txt": "./static/js/2.f76aed61.chunk.js.LICENSE.txt",
-    "static/media/index.css": "./static/media/Dubai-Regular.8455b3cd.ttf",
-    "static/media/info.module.css": "./static/media/info01.c755eff1.png",
-    "static/media/info02.31f97879.png": "./static/media/info02.31f97879.png",
-    "static/media/info04.ceb49003.png": "./static/media/info04.ceb49003.png",
-    "static/media/info09.f8e47b2c.png": "./static/media/info09.f8e47b2c.png",
-    "static/media/info10.d1b57320.png": "./static/media/info10.d1b57320.png",
-    "static/media/loading.fea0a869.svg": "./static/media/loading.fea0a869.svg",
-    "static/media/particle.b14ff166.gif": "./static/media/particle.b14ff166.gif"
+    "main.css": "/static/css/main.a5c44b18.chunk.css",
+    "main.js": "/static/js/main.b02516d3.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.23337b90.js",
+    "static/css/2.9283591b.chunk.css": "/static/css/2.9283591b.chunk.css",
+    "static/js/2.696b80fc.chunk.js": "/static/js/2.696b80fc.chunk.js",
+    "static/js/3.f42a02e8.chunk.js": "/static/js/3.f42a02e8.chunk.js",
+    "index.html": "/index.html",
+    "static/js/2.696b80fc.chunk.js.LICENSE.txt": "/static/js/2.696b80fc.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/Dubai-Regular.8455b3cd.ttf",
+    "static/media/info.module.css": "/static/media/info01.c755eff1.png",
+    "static/media/info02.31f97879.png": "/static/media/info02.31f97879.png",
+    "static/media/info04.ceb49003.png": "/static/media/info04.ceb49003.png",
+    "static/media/info09.f8e47b2c.png": "/static/media/info09.f8e47b2c.png",
+    "static/media/info10.d1b57320.png": "/static/media/info10.d1b57320.png",
+    "static/media/loading.fea0a869.svg": "/static/media/loading.fea0a869.svg",
+    "static/media/particle.b14ff166.gif": "/static/media/particle.b14ff166.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.be4d616c.js",
+    "static/js/runtime-main.23337b90.js",
     "static/css/2.9283591b.chunk.css",
-    "static/js/2.f76aed61.chunk.js",
-    "static/css/main.829d29ed.chunk.css",
+    "static/js/2.696b80fc.chunk.js",
+    "static/css/main.a5c44b18.chunk.css",
     "static/js/main.b02516d3.chunk.js"
   ]
 }
