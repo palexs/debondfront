@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.acc3b45f.chunk.css",
-    "main.js": "/static/js/main.c7c6b3f1.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.5a2e596d.js",
-    "static/css/2.eeee29c1.chunk.css": "/static/css/2.eeee29c1.chunk.css",
-    "static/js/2.2a38d1e4.chunk.js": "/static/js/2.2a38d1e4.chunk.js",
-    "static/js/3.1dc0c458.chunk.js": "/static/js/3.1dc0c458.chunk.js",
-    "index.html": "/index.html",
-    "static/js/2.2a38d1e4.chunk.js.LICENSE.txt": "/static/js/2.2a38d1e4.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/static/media/Dubai-Regular.8455b3cd.ttf",
-    "static/media/info.module.css": "/static/media/info01.c755eff1.png",
-    "static/media/info02.31f97879.png": "/static/media/info02.31f97879.png",
-    "static/media/info04.ceb49003.png": "/static/media/info04.ceb49003.png",
-    "static/media/info09.f8e47b2c.png": "/static/media/info09.f8e47b2c.png",
-    "static/media/info10.d1b57320.png": "/static/media/info10.d1b57320.png",
-    "static/media/loading.fea0a869.svg": "/static/media/loading.fea0a869.svg",
-    "static/media/particle.b14ff166.gif": "/static/media/particle.b14ff166.gif"
+    "main.css": "/debondfront/static/css/main.9584e0d1.chunk.css",
+    "main.js": "/debondfront/static/js/main.081ddaa4.chunk.js",
+    "runtime-main.js": "/debondfront/static/js/runtime-main.d9747472.js",
+    "static/css/2.eeee29c1.chunk.css": "/debondfront/static/css/2.eeee29c1.chunk.css",
+    "static/js/2.518341b4.chunk.js": "/debondfront/static/js/2.518341b4.chunk.js",
+    "static/js/3.1dc0c458.chunk.js": "/debondfront/static/js/3.1dc0c458.chunk.js",
+    "index.html": "/debondfront/index.html",
+    "static/js/2.518341b4.chunk.js.LICENSE.txt": "/debondfront/static/js/2.518341b4.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/debondfront/static/media/Dubai-Regular.8455b3cd.ttf",
+    "static/media/info.module.css": "/debondfront/static/media/info01.c755eff1.png",
+    "static/media/info02.31f97879.png": "/debondfront/static/media/info02.31f97879.png",
+    "static/media/info04.ceb49003.png": "/debondfront/static/media/info04.ceb49003.png",
+    "static/media/info09.f8e47b2c.png": "/debondfront/static/media/info09.f8e47b2c.png",
+    "static/media/info10.d1b57320.png": "/debondfront/static/media/info10.d1b57320.png",
+    "static/media/loading.fea0a869.svg": "/debondfront/static/media/loading.fea0a869.svg",
+    "static/media/particle.b14ff166.gif": "/debondfront/static/media/particle.b14ff166.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.5a2e596d.js",
+    "static/js/runtime-main.d9747472.js",
     "static/css/2.eeee29c1.chunk.css",
-    "static/js/2.2a38d1e4.chunk.js",
-    "static/css/main.acc3b45f.chunk.css",
-    "static/js/main.c7c6b3f1.chunk.js"
+    "static/js/2.518341b4.chunk.js",
+    "static/css/main.9584e0d1.chunk.css",
+    "static/js/main.081ddaa4.chunk.js"
   ]
 }
