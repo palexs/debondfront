@@ -1,1 +1,0 @@
-import imgArr from '@img';
