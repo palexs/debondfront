@@ -41,6 +41,7 @@
         "react/state-in-constructor": "warn",
         "@typescript-eslint/no-var-requires": "off",
         "no-plusplus": "off",
+        "no-empty-function": "off",
         "camelcase": "off"
     },
     "settings": {

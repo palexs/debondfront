@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { BigNumber, Contract, utils } from 'ethers';
 import { notification, Input } from 'antd';
-import { WarningOutlined } from '@ant-design/icons';
+import { WarningOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import MyModal from '../../../components/Modal/Index';
 import { getDisplayBalance, getBalance, handleBalance } from '../../../eigma-cash/format_util';
 import config from '../../../config-production';
@@ -224,7 +224,22 @@ export class Content extends Component<Props, State> {
     const { index, address, amount } = result;
     const proof0 = tree.getProof(index || 0, address, BigNumber.from(amount || 0));
     this.contracts.claim = new Contract(this.externalTokens.claim[0], abiClaim, this.provider);
-    const claim = await this.contracts.claim.claimAirdrop(proof0, index || 0, address, BigNumber.from(amount || 0));
+    try {
+      const claim = await this.contracts.claim.claimAirdrop(proof0, index || 0, address, BigNumber.from(amount || 0));
+      if (claim) {
+        notification.open({
+          message: 'Transaction has succeeded',
+          description: 'You\'ve successfully claimed your airdrop.',
+          icon: <CheckCircleOutlined style={{ color: 'green' }} />,
+        });
+      }
+    } catch (e) {
+      notification.open({
+        message: 'Transaction has failed',
+        description: 'Failed to claim airdrop.',
+        icon: <WarningOutlined style={{ color: '#faad14' }} />,
+      });
+    }
   };
 
   // OK in the pop-up box

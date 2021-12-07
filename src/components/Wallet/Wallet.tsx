@@ -4,7 +4,6 @@ import {
   Button, Collapse, Divider, Space, Spin, Table, Typography,
 } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
 import styles from '../header/css/header.module.css';
 import { Refresh, Close } from '../Icon/Icon';
 import UnderConstructionModal from '../UnderConstructionModal/UnderConstructionModal';
@@ -105,7 +104,7 @@ class Wallet extends Component<any, any> {
             <>
               <Close
                 style={{ position: 'absolute', right: '-25px', width: '20px' }}
-                onClick={this.props.hide}
+                close={this.props.hide}
               />
               <Refresh
                 style={{}}

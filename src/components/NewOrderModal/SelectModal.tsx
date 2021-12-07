@@ -493,7 +493,7 @@ class SelectModal extends Component<Props> {
           {this.props.title}
           {' '}
           <Close
-            onClick={this.props.onCancel}
+            close={this.props.onCancel}
             className={`close_icon ${styles.close_icon}`}
           />
         </h1>

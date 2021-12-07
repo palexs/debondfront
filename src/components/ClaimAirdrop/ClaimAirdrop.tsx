@@ -183,7 +183,7 @@ class ClaimAirdrop extends Component<Props> {
             {this.Balance()}
           </Row>
           {this.handleLuckyOnes()}
-          <Button className={styles.claim} onClick={() => { this.onClaim(); }}>CLAIM</Button>
+          <Button className={styles.claim} onClick={this.onClaim}>CLAIM</Button>
           <h1 className={styles.title} style={{ marginTop: 30 }}>AIRDROP LIST Ⓘ</h1>
           <Row>
             <Col

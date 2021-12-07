@@ -6,7 +6,7 @@ import {
 import { UpOutlined, WarningOutlined, RightOutlined } from '@ant-design/icons';
 import Web3 from 'web3';
 import { Contract, ethers } from 'ethers';
-import styleCommon from '@common/css/util.module.css';
+import styleCommon from '../../common/css/util.module.css';
 import Store from '../../redux/index';
 import styles from './css/header.module.css';
 import Links from '../Links/index';
