@@ -290,7 +290,7 @@ class Info extends Component {
           <article className={styles.article}>
             <h3 dir="rtl" className={styles.title}>
               <span style={{ display: 'block', marginBottom: '-0.2rem' }}> DEBOND </span>
-              <small className={styles.sub_title}> Dcentralised Bond —</small>
+              <small className={styles.sub_title}> Decentralised Bond —</small>
               {' '}
               <br />
               &lt;&gt;
@@ -596,7 +596,7 @@ class Info extends Component {
             <div className={`${styles.content} content`}>
               <h3 className={styles.title}>
                 Bond Dex
-                <small> — Dcentralised Bond Exchange</small>
+                <small> — Decentralised Bond Exchange</small>
                 &lt;&gt;
               </h3>
               <div className="xs-block" style={{ marginBottom: '1rem' }}>
