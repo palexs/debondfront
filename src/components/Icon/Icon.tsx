@@ -49,19 +49,12 @@ const Close = function (props: CloseProps) {
       style={props.style}
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
-      viewBox="0 0 14 27"
+      viewBox="0 0 500 482"
     >
-      <text
-        id="_"
-        data-name="⇕"
-        transform="translate(7 22)"
+      <path
+        d="M259,134.38V362.71l25.06-24.37h51.16L176.17,490.1h-1.39L15.36,338.34H66.53l25.06,24.37V134.38L66.53,159.44H15.36L174.78,7.68h1.39L335.23,159.44H284.07ZM176.17,444.5l36.55-36.19V88.78l-36.55-35.5h-1.39l-36.9,36.2V408.31l36.9,36.19Z"
         fill="#fff"
-        fontSize="20"
-        fontFamily="SegoeUISymbol, Segoe UI Symbol"
-        letterSpacing="0.3em"
-      >
-        <tspan x="-6.152" y="0">⇕</tspan>
-      </text>
+      />
     </svg>
   );
 };
