@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  Button, Collapse, Table, Spin, notification,
+  Button, Collapse, Table, notification,
 } from 'antd';
 import { UpOutlined, WarningOutlined, RightOutlined } from '@ant-design/icons';
 import Web3 from 'web3';
@@ -32,47 +32,48 @@ const columns = [
     width: 35,
   },
 ];
-type IMyComponentState = {
+
+type Item = {
+  key: string,
+  name: string,
+  amount: number,
+  description: Array<{N: number, ERD: string, Balances: number}>,
+};
+
+type State = {
   value: string;
-  isModalVisible: boolean;
-  disabled: boolean;
-  amount: number;
-  dataSource: any;
-  currCurrencyIndex: number;
+  loading: boolean;
+  dataSource: Array<Item>;
+  manageBool: boolean;
 };
-type IMyComponentProps = {
-  provider: any
+
+type Props = {
+  provider: any;
 };
+
 const { Panel } = Collapse;
+
+const abiBonds = require('../../eigma-cash/deployments/bonds.json');
+
 const genExtra = () => (
   <RightOutlined style={{ position: 'absolute', right: 15, bottom: -20 }} />
 );
-export class HeaderNav extends React.Component<IMyComponentProps, any> {
-  public tree: any;
 
-  public list: Array<any>;
+export class HeaderNav extends Component<Props, State> {
+  contracts: any;
 
-  public contracts: any;
+  walletWithProvider: any;
 
-  public walletWithProvider: any;
+  currentAddress: any;
 
-  public currentAddress: any;
-
-  public dataSourceStatus: boolean;
-
-  public constructor(props?: any, context?: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       value: 'Connect Wallet',
-      amount: 0,
-      isModalVisible: false,
-      disabled: true,
       loading: true,
       dataSource: [],
       manageBool: false,
     };
-    this.list = [];
-    this.dataSourceStatus = true;
     this.contracts = {};
   }
 
@@ -80,9 +81,48 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
     this.initData();
   }
 
-  public async initData() {
-    // The introduction of web 3
-    // Check if it's a new MetaMask or DApp browser
+  handleRefresh = async (e: any) => {
+    this.setState({
+      dataSource: [],
+    });
+    await this.detailData().then((res) => {
+      this.setState({
+        dataSource: res,
+      });
+    });
+  };
+
+  getSubStr(str: any) {
+    const subStr1 = str.substr(0, 5);
+    const subStr2 = str.substr(str.length - 5, 5);
+    const subStr = `${subStr1}...${subStr2}`;
+    return subStr;
+  }
+
+  hide = () => {
+    console.log('manage bool ', this.state.manageBool);
+    this.setState({
+      manageBool: false,
+    });
+    // this.forceUpdate();
+  };
+
+  searchBonds = (e: any) => {
+    if (!this.currentAddress) {
+      notification.open({
+        message: 'No wallet connected',
+        description: 'Please click the Connect Wallet button first',
+        icon: <WarningOutlined style={{ color: '#faad14' }} />,
+      });
+      return;
+    }
+    if (this.state.manageBool) return;
+    this.setState({
+      manageBool: true,
+    });
+  };
+
+  initData = async () => {
     let web3Provider;
     const windowNew = window as any;
     if (windowNew.ethereum) {
@@ -102,20 +142,25 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
       alert('It is detected that there is no metamask plug-in in the current browser!');
       web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     }
+    // Get network ID
     const web3 = new Web3(web3Provider);
+    const netId: string = await web3.eth.net.getNetworkType();
+    console.log('NETWORK_ID: ', netId);
+
     // Extract the user from the Meta Mask
     const provider = new ethers.providers.Web3Provider(web3Provider);
     const walletWithProvider = provider.getSigner();
     this.walletWithProvider = walletWithProvider;
     this.props.provider(walletWithProvider);
-  }
+  };
 
-  public initWallet = async () => {
+  initWallet = async () => {
     if (this.state.value !== 'Connect Wallet') return;
 
     let web3Provider;
     const windowNew = window as any;
     if (windowNew.ethereum) {
+      // Modern Dapp browsers.
       web3Provider = windowNew.ethereum;
       try {
         await windowNew.ethereum.enable();
@@ -124,10 +169,11 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
         return;
       }
     } else if (windowNew.web3) {
-      // original MetaMask Legacy dapp browsers...123456
+      // Legacy Dapp browsers. Use Mist/Metamask provider.
       web3Provider = windowNew.web3.currentProvider;
     } else {
-      alert('It is detected that there is no metamask plug-in in the current browser！');
+      // Fallback to localhost.
+      alert('It is detected that there is no Metamask plug-in in the current browser!');
       web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     }
     const web3 = new Web3(web3Provider);
@@ -150,68 +196,44 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
     }
     const list = await this.detailData();
     if (list) {
-      this.dataSourceStatus = false;
       this.setState({
         dataSource: list,
       });
     }
   };
 
-  public detailData = async () => {
-    const abi = require('../../eigma-cash/deployments/bonds.json');
-    this.contracts.bonds = new Contract('0x5ee27377c193428BAB9F106549bb6282Dac5FE69', abi, this.walletWithProvider);
+  detailData = async (): Promise<Array<Item>> => {
+    this.contracts.bonds = new Contract('0x5bfa4bc5Db78DC97ffBe2207CB1f4dBB502f8f5b', abiBonds, this.walletWithProvider); // 0x5ee27377c193428BAB9F106549bb6282Dac5FE69
     const classList = await this.contracts.bonds.getClassCreated();
-    const count = classList.length;
-    const list = [];
-
-    for (let i = 0; i < count; i++) {
-      const sym = await this.contracts.bonds.getBondSymbol(classList[i]);
-      const nonce = await this.contracts.bonds.getNonceCreated(classList[i]);
-      const listTwo = [];
+    const list: Array<Item> = await Promise.all(classList.map(async (item: any) => {
+      const sym = await this.contracts.bonds.getBondSymbol(item);
+      const nonce = await this.contracts.bonds.getNonceCreated(item);
       let amount = 0;
-      for (let j = 0; j < nonce.length; j++) {
-        const unit = {} as any;
-        let mount = await this.contracts.bonds.balanceOf(this.currentAddress, classList[i], nonce[j]);
-        const info = await this.contracts.bonds.getBondInfo(classList[i], nonce[j]);
+      const listTwo: Array<{N: number, ERD: string, Balances: number}> = await Promise.all(nonce.map(async (nonceEl: any) => {
+        let mount = await this.contracts.bonds.balanceOf(this.currentAddress, item, nonceEl);
+        const info = await this.contracts.bonds.getBondInfo(item, nonceEl);
         const time = info[1].toNumber();
         const timestamp = new Date(time * 1000);
         const longtime = timestamp.toLocaleDateString().replace(/\//g, '-');
         mount = getDisplayBalance(mount, 5, 18);
-        unit.N = nonce[j].toNumber();
-        unit.ERD = longtime;
-        unit.Balances = parseFloat(mount);
-        listTwo.push(unit);
         amount += parseFloat(mount);
-      }
-      const obj = {} as any;
-      obj.key = sym;
-      obj.name = sym;
-      obj.amount = roundFun(amount, 5);
-      obj.description = listTwo;
-      list.push(obj);
-    }
-    this.list = list;
+        return {
+          N: nonceEl.toNumber(),
+          ERD: longtime,
+          Balances: parseFloat(mount),
+        };
+      }));
+      return {
+        key: sym,
+        name: sym,
+        amount: roundFun(amount, 5),
+        description: listTwo,
+      };
+    }));
     return list;
   };
 
-  public searchBonds = (e: any) => {
-    if (!this.currentAddress) {
-      notification.open({
-        message: 'No wallet connected',
-        description: 'Please click the Connect Wallet button first',
-        icon: <WarningOutlined style={{ color: '#faad14' }} />,
-      });
-      // alert("No wallet connected");
-      return;
-    }
-    if (this.state.manageBool) return;
-    this.setState({
-      manageBool: true,
-      // dataSource: this.list
-    });
-  };
-
-  public makeTable(dataSource: any) {
+  renderTable(dataSource: any) {
     return (
       <Table
         className={`tables ${styles.tables}`}
@@ -226,25 +248,24 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
     );
   }
 
-  public makePanels() {
+  renderPanels() {
     const { dataSource } = this.state;
     const { length } = dataSource;
     if (length) {
-      let panels: any[];
-      panels = dataSource.map((item?: object, i?: any) => (
+      const panels: any[] = dataSource.map((item: Item, i: number) => (
         <Panel
           header={(
             <div style={{ display: 'inline' }}>
               <div style={{ display: 'inline' }}>{dataSource[i].name}</div>
               <div style={{ float: 'right' }}>{dataSource[i].amount}</div>
             </div>
-)}
+              )}
           extra={genExtra()}
-          key={i}
+          key={item.key}
           className={`collapse ${styles.collapse_panel}`}
         >
           {' '}
-          {this.makeTable(dataSource[i])}
+          {this.renderTable(dataSource[i])}
         </Panel>
       ));
       const item = (
@@ -267,7 +288,6 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
       return (
         <Collapse
           bordered={false}
-          defaultActiveKey={['1']}
           accordion
           className={styles.collapse}
           expandIconPosition="right"
@@ -291,34 +311,8 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
     );
   }
 
-  public handleRefresh = async (e: any) => {
-    this.setState({
-      dataSource: [],
-    });
-    await this.detailData().then((res) => {
-      this.setState({
-        dataSource: res,
-      });
-    });
-  };
-
-  public hide = () => {
-    console.log('manage bool ', this.state.manageBool);
-    this.setState({
-      manageBool: false,
-    });
-    // this.forceUpdate();
-  };
-
-  public getSubStr(str: any) {
-    const subStr1 = str.substr(0, 5);
-    const subStr2 = str.substr(str.length - 5, 5);
-    const subStr = `${subStr1}...${subStr2}`;
-    return subStr;
-  }
-
-  public render() {
-    const panels = this.makePanels();
+  render() {
+    const panels = this.renderPanels();
     return (
       <div className={`header ${styles.header} ${styleCommon.flex} ${styleCommon.fl_wrap}`}>
         <div className={styles.logoimg}>
@@ -335,12 +329,8 @@ export class HeaderNav extends React.Component<IMyComponentProps, any> {
             value={this.state.value}
             dataSource={this.state.dataSource}
             hide={this.hide}
-            searchBonds={(e: any) => {
-              this.searchBonds(e);
-            }}
-            refresh={(e: any) => {
-              this.handleRefresh(e);
-            }}
+            searchBonds={this.searchBonds}
+            refresh={this.handleRefresh}
             manageBool={this.state.manageBool}
             panels={panels}
           />
