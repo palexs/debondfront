@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/debondfront/static/css/main.9584e0d1.chunk.css",
-    "main.js": "/debondfront/static/js/main.feeb6b88.chunk.js",
-    "runtime-main.js": "/debondfront/static/js/runtime-main.cdc6f58d.js",
+    "main.css": "/debondfront/static/css/main.ac1d5d58.chunk.css",
+    "main.js": "/debondfront/static/js/main.cb8e9d19.chunk.js",
+    "runtime-main.js": "/debondfront/static/js/runtime-main.2ab85a43.js",
     "static/css/2.eeee29c1.chunk.css": "/debondfront/static/css/2.eeee29c1.chunk.css",
-    "static/js/2.efd580d6.chunk.js": "/debondfront/static/js/2.efd580d6.chunk.js",
-    "static/js/3.72b8b89e.chunk.js": "/debondfront/static/js/3.72b8b89e.chunk.js",
+    "static/js/2.f310d1a9.chunk.js": "/debondfront/static/js/2.f310d1a9.chunk.js",
+    "static/js/3.7fa85f2c.chunk.js": "/debondfront/static/js/3.7fa85f2c.chunk.js",
     "index.html": "/debondfront/index.html",
-    "static/js/2.efd580d6.chunk.js.LICENSE.txt": "/debondfront/static/js/2.efd580d6.chunk.js.LICENSE.txt",
+    "static/js/2.f310d1a9.chunk.js.LICENSE.txt": "/debondfront/static/js/2.f310d1a9.chunk.js.LICENSE.txt",
     "static/media/index.css": "/debondfront/static/media/Dubai-Regular.8455b3cd.ttf",
     "static/media/info.module.css": "/debondfront/static/media/info01.c755eff1.png",
     "static/media/info02.31f97879.png": "/debondfront/static/media/info02.31f97879.png",
@@ -18,10 +18,10 @@
     "static/media/particle.b14ff166.gif": "/debondfront/static/media/particle.b14ff166.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.cdc6f58d.js",
+    "static/js/runtime-main.2ab85a43.js",
     "static/css/2.eeee29c1.chunk.css",
-    "static/js/2.efd580d6.chunk.js",
-    "static/css/main.9584e0d1.chunk.css",
-    "static/js/main.feeb6b88.chunk.js"
+    "static/js/2.f310d1a9.chunk.js",
+    "static/css/main.ac1d5d58.chunk.css",
+    "static/js/main.cb8e9d19.chunk.js"
   ]
 }
