@@ -24,15 +24,15 @@
     font-weight: bolder;
 }
 .climAirdrop{
-    width: 50%;
-    margin:20px auto;
+    width: 80%;
+    margin: 20px auto;
     line-height: 1 !important;
-    text-transform: uppercase   ;
+    text-transform: uppercase;
 }
 .address{
     display: block;
     float: right;
-    width:calc(100% - 70px);
+    width: calc(100% - 70px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

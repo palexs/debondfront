@@ -1,148 +1,107 @@
 import React, { Component } from 'react';
 import {
-  Row, Col, List, Button,
+  Row, Col, List, Button, notification,
 } from 'antd';
 import axios from 'axios';
-import { start } from 'repl';
-import { Contract } from 'ethers';
+import { BigNumber, Contract } from 'ethers';
+import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import MyModal from '../Modal/Index';
-import { Close, Refresh } from '../Icon/Icon';
 import styles from '../../views/bank/css/sash.module.css';
 import '../../views/bank/css/sash.css';
 import config from '../../config-test';
+import BalanceTree from '../../views/bank/tree/balance-tree';
 
 type Props = {
-  close: any,
+  close: () => void,
   status: boolean,
-  title:string,
-  currAddress:string,
-  provider?:any
+  title: string,
+  currAddress: string,
+  provider: any,
 }
-class ClaimAirdrop extends Component<Props> {
-  private provider = this.props.provider;
 
-  private contract:any = {};
+type Item = { index: string, address: string, amount: string };
 
-  private externalTokens = config.externalTokens;
+type State = {
+  dataSource: Array<Item>,
+  balanceData: Array<{type: string, num: any, unit: string}>,
+  spinning: boolean,
+};
 
-  state = {
-    dataSource: [],
-    balanceData: [],
-    spinning: false,
-  };
+const abiClaim = require('../../eigma-cash/deployments/claim.json');
+const abiBankTest = require('../../eigma-cash/deployments/bankTest.json');
 
-  public init = async () => {
-    // if (!this.provider.getAddress()){
-    //   return;
-    // }
-    // console.log("provider",this.provider)
-    const abi = require('../../eigma-cash/deployments/bankTest.json');
-    const test = new Contract(this.externalTokens.BANKTEST[0], abi, this.props.provider);
-    // console.log("bankTest",test)
+class ClaimAirdrop extends Component<Props, State> {
+  static getTruncatedAddress(address: string, amount: number) {
+    const leftPart = address.substr(0, amount);
+    const rightPart = address.substr(address.length - amount, amount);
+    return `${leftPart}...${rightPart}`;
+  }
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      dataSource: [],
+      balanceData: [],
+      spinning: false,
+    };
+  }
+
+  componentDidMount() {
+    this.init();
+    this.getAirdropList();
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+    this.init();
+  }
+
+  init = async () => {
+    const test = new Contract(config.externalTokens.BANKTEST[0], abiBankTest, this.props.provider);
     const balance = await test.getBalances();
-    const balanceData = [];
-    const name = ['DBIT BALANCE,DIBT Ⓘ', 'DBGT BALANCE,DBGT Ⓘ', 'LOCKED DIBT,DIBT Ⓘ', 'LOCKED DBGT,DBGT Ⓘ'];
-    for (let i = 0; i < name.length; i++) {
-      balanceData.push({
-        type: name[i].split(',')[0],
-        num: balance[i],
-        unit: name[i].split(',')[1],
-      });
-    }
+    const balanceData = ['DBIT BALANCE,DIBT Ⓘ', 'DBGT BALANCE,DBGT Ⓘ', 'LOCKED DIBT,DIBT Ⓘ', 'LOCKED DBGT,DBGT Ⓘ'].map((item: string, index: number) => ({
+      type: item.split(',')[0],
+      num: balance[index],
+      unit: item.split(',')[1],
+    }));
     this.setState({
       balanceData,
     });
   };
 
-  public handleRefresh = () => {};
-
-  public Balance = () => this.state.balanceData.map(({ num, type, unit }, i) => (
-    <Col className={styles.item} span={12} key={i}>
-      <h3 className={styles.item_title}>{type}</h3>
-      <p className={styles.amount}>
-        {num}
-        {' '}
-        {unit}
-      </p>
-    </Col>
-  ));
-
-  public WalletInfo = (data:any, type:any = false) => (
-    <Row className={styles.climAirdrop}>
-      <Col span={type && 5 || 5}>
-        {Object.keys(data)[0]}
-        {' '}
-        {data.index}
-      </Col>
-      <Col span={type && 10 || 14}>
-        {Object.keys(data)[1]}
-        {' '}
-        <span className={styles.address}>{data.address}</span>
-      </Col>
-      <Col span={type && 9 || 5} style={{ textAlign: 'right' }}>
-        {Object.keys(data)[2]}
-        {' '}
-        <span className={styles.amount2}>{data.amount}</span>
-      </Col>
-    </Row>
-  );
-
-  componentDidMount() {
-    this.getAirdropList();
-  }
-
-  componentWillReceiveProps(nextProps: any, nextContext: any) {
-    this.init();
-  }
-
-  public handleLuckyOnes = () => {
-    const curr = this.state.dataSource.filter(({ address }, i) => address == this.props.currAddress);
-    if (curr.length) {
-      return this.WalletInfo(curr[0], true);
+  renderAddressStatus = () => {
+    const curr = this.state.dataSource.filter(({ address }) => address === this.props.currAddress);
+    if (curr.length > 0) {
+      return this.renderAddressInfo(curr[0], true);
     }
     return (<p style={{ textAlign: 'center' }}>It is found that you are not in the airdrop list. You can click the CSV button to download the file or view the online list</p>);
   };
 
-  public getAirdropList = async () => {
-    const html = await axios.get(`http://${window.location.host}/airdrop_list.csv`);
-    const text = html.data;
+  getAirdropList = async (): Promise<void> => {
+    const htmlObj = await axios.get('/airdrop_list.csv');
+    const text = htmlObj.data;
     const textList = text.split(/[\n]/g);
-    const count = textList ? textList.length : 0;
-    const dataSource = [];
-    for (let i = 0; i < count - 1; i++) {
-      const unit = textList[i];
-      const childList = unit.split(/,/g);
-      const objectNew = {} as any;
-      objectNew.index = childList[0];
-      objectNew.address = childList[4];
-      objectNew.amount = String(childList[5]).replace(/\r/g, '');
-      dataSource.push(objectNew);
-    }
+    const dataSource = textList.map((item: any) => {
+      const childList = item.split(/,/g);
+      return {
+        index: childList[0],
+        address: childList[4],
+        amount: childList[5].trim(),
+      };
+    });
     this.setState({
       dataSource,
     });
   };
 
-  public checkAddress(address: string, list: any) {
-    const count = list ? list.length : 0;
-    const bool = false;
-    const amount = 0;
-    for (let i = 0; i < count; i++) {
-      const unit = list[i];
-      const childList = unit.split(/,/g);
-      // if (address == childList[4]) {
-      const objectNew = {} as any;
-      objectNew.index = childList[0];
-      objectNew.address = childList[4];
-      objectNew.amount = childList[5];
-      //   amount = childList[5] | 0;
-      //   // this.currentAddress = objectNew;
-      //   bool = true;
-      // }
-    }
-  }
+  getBalanceTree = (): BalanceTree => {
+    const result = this.state.dataSource.map((item: Item) => ({
+      account: item.address,
+      amount: BigNumber.from(item.amount.trim() || 0),
+    }));
+    return new BalanceTree(result);
+  };
 
-  public refresh = async () => {
+  refresh = async () => {
     this.setState({
       spinning: true,
     });
@@ -160,13 +119,69 @@ class ClaimAirdrop extends Component<Props> {
     });
   };
 
-  public onClaim = async () => {
-    const abi = require('../../eigma-cash/deployments/bankTest.json');
-    const bank = new Contract(config.externalTokens.TEST[0], abi, this.props.provider);
-    // console.log(this.props.provider)
-    const res = await bank.handleCliam('0x3aFf7B140E43243356EF4Aa880242083a927EA91');
-    // console.log(res)
+  onClaim = async () => {
+    const curr = this.state.dataSource.filter(({ address }) => address === this.props.currAddress);
+    if (curr.length === 0) {
+      notification.open({
+        message: 'Address not found',
+        description: 'Your address is not found in the airdrop list.',
+        icon: <WarningOutlined style={{ color: '#faad14' }} />,
+      });
+      return;
+    }
+    const tree = this.getBalanceTree();
+    const { index, address, amount } = curr[0];
+    const idx = Number(index) - 1;
+    const proof0 = tree.getProof(idx, address, BigNumber.from(amount || 0));
+    const claimContract = new Contract(config.externalTokens.claim[0], abiClaim, this.props.provider);
+    try {
+      const claim = await claimContract.claimAirdrop(proof0, index || 0, address, BigNumber.from(amount || 0));
+      if (claim) {
+        notification.open({
+          message: 'Transaction has succeeded',
+          description: 'You\'ve successfully claimed your airdrop.',
+          icon: <CheckCircleOutlined style={{ color: 'green' }} />,
+        });
+      }
+    } catch (e) {
+      notification.open({
+        message: 'Transaction has failed',
+        description: 'Failed to claim airdrop.',
+        icon: <WarningOutlined style={{ color: '#faad14' }} />,
+      });
+    }
   };
+
+  renderBalance = () => this.state.balanceData.map(({ num, type, unit }, i) => (
+    <Col className={styles.item} span={12} key={i}>
+      <h3 className={styles.item_title}>{type}</h3>
+      <p className={styles.amount}>
+        {num}
+        {' '}
+        {unit}
+      </p>
+    </Col>
+  ));
+
+  renderAddressInfo = (data: Item, isCurrentAddress = false) => (
+    <Row className={styles.climAirdrop}>
+      <Col span={5}>
+        {Object.keys(data)[0]}
+        {' '}
+        {data.index}
+      </Col>
+      <Col span={14}>
+        {Object.keys(data)[1]}
+        {' '}
+        <span className={styles.address}>{ClaimAirdrop.getTruncatedAddress(data.address, isCurrentAddress ? 10 : 12)}</span>
+      </Col>
+      <Col span={5} style={{ textAlign: 'right' }}>
+        {Object.keys(data)[2]}
+        {' '}
+        <span className={styles.amount2}>{data.amount}</span>
+      </Col>
+    </Row>
+  );
 
   render() {
     return (
@@ -180,9 +195,9 @@ class ClaimAirdrop extends Component<Props> {
         <div className={styles.wrap}>
           <h1 className={styles.title}>BALANCE</h1>
           <Row>
-            {this.Balance()}
+            {this.renderBalance()}
           </Row>
-          {this.handleLuckyOnes()}
+          {this.renderAddressStatus()}
           <Button className={styles.claim} onClick={this.onClaim}>CLAIM</Button>
           <h1 className={styles.title} style={{ marginTop: 30 }}>AIRDROP LIST Ⓘ</h1>
           <Row>
@@ -231,7 +246,7 @@ class ClaimAirdrop extends Component<Props> {
                   showSizeChanger: false,
                 }}
                 style={{ width: '100%' }}
-                renderItem={(item:any) => <List.Item className="item">{this.WalletInfo(item)}</List.Item>}
+                renderItem={(item: Item) => <List.Item className="item">{this.renderAddressInfo(item)}</List.Item>}
               />
             </Col>
           </Row>

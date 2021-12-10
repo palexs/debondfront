@@ -42,7 +42,8 @@
         "@typescript-eslint/no-var-requires": "off",
         "no-plusplus": "off",
         "no-empty-function": "off",
-        "camelcase": "off"
+        "camelcase": "off",
+        "class-methods-use-this": "warn"
     },
     "settings": {
         "import/resolver": {

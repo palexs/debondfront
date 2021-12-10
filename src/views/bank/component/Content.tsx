@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { BigNumber, Contract, utils } from 'ethers';
 import { notification, Input } from 'antd';
-import { WarningOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { WarningOutlined } from '@ant-design/icons';
 import MyModal from '../../../components/Modal/Index';
 import { getDisplayBalance, getBalance, handleBalance } from '../../../eigma-cash/format_util';
 import config from '../../../config-production';
-import BalanceTree from '../tree/balance-tree';
 import { Module } from './Module';
 import styles from '../css/bank.module.css';
 import buySashBond from '../css/buySashBond.module.css';
@@ -21,7 +19,6 @@ const abiERC20 = require('../../../eigma-cash/deployments/ERC20.json');
 const abiSASHTOKEN = require('../../../eigma-cash/deployments/SASHTOKEN.json');
 const abiRouter = require('../../../eigma-cash/deployments/uniswapRouter.json');
 const abiBank = require('../../../eigma-cash/deployments/bank.json');
-const abiClaim = require('../../../eigma-cash/deployments/claim.json');
 
 type State = {
   value: string;
@@ -51,25 +48,6 @@ type Props = {
 
 // const windowNew = window as any;/
 export class Content extends Component<Props, State> {
-  static getCurrentAddressData = (address: string, list: string[]): {
-    index: number, amount: string, address: string,
-  } | null => {
-    const count = list ? list.length : 0;
-    for (let i = 0; i < count; i++) {
-      const unit = list[i];
-      const childList = unit.split(/,/g);
-      if (address === childList[4]) {
-        return {
-          index: i, // childList[0],
-          amount: childList[5].trim(),
-          address: childList[4],
-        };
-        break;
-      }
-    }
-    return null;
-  };
-
   provider: any;
 
   list: any[];
@@ -190,56 +168,13 @@ export class Content extends Component<Props, State> {
     });
   };
 
-  public claimAirdrop = async () => {
+  claimAirdrop = async () => {
     const privateAddress = await this.provider.getAddress();
-    const arrayList = [];
-    const htmlObj = await axios.get('/airdrop_list.csv');
-    const text = htmlObj.data;
-    const textList = text.split(/[\n]/g);
-    const count = textList ? textList.length : 0;
 
     this.setState({
       currAddress: privateAddress,
+      sashModalStatus: true,
     });
-    const isCheck = this.checkAddress(privateAddress, textList);
-    if (!isCheck) {
-      return;
-    }
-    const result = Content.getCurrentAddressData(privateAddress, textList);
-    if (!result) {
-      return;
-    }
-
-    for (let i = 0; i < count; i++) {
-      const childList = textList[i].split(/,/g);
-      arrayList.push({
-        account: childList[4],
-        amount: BigNumber.from(childList[5].trim() || 0),
-      });
-    }
-    this.list = arrayList;
-    const tree = new BalanceTree(this.list);
-    // const hexRoot = tree.getHexRoot();
-
-    const { index, address, amount } = result;
-    const proof0 = tree.getProof(index || 0, address, BigNumber.from(amount || 0));
-    this.contracts.claim = new Contract(this.externalTokens.claim[0], abiClaim, this.provider);
-    try {
-      const claim = await this.contracts.claim.claimAirdrop(proof0, index || 0, address, BigNumber.from(amount || 0));
-      if (claim) {
-        notification.open({
-          message: 'Transaction has succeeded',
-          description: 'You\'ve successfully claimed your airdrop.',
-          icon: <CheckCircleOutlined style={{ color: 'green' }} />,
-        });
-      }
-    } catch (e) {
-      notification.open({
-        message: 'Transaction has failed',
-        description: 'Failed to claim airdrop.',
-        icon: <WarningOutlined style={{ color: '#faad14' }} />,
-      });
-    }
   };
 
   // OK in the pop-up box
@@ -406,35 +341,6 @@ export class Content extends Component<Props, State> {
         bondSpinning: false,
       });
     }, 800);
-  };
-
-  // Check whether the address exists
-  checkAddress = (address: string, list: string[]) => {
-    let bool = false;
-    let amount = BigNumber.from(0);
-    const count = list ? list.length : 0;
-    for (let i = 0; i < count; i++) {
-      const unit = list[i];
-      const childList = unit.split(/,/g);
-      if (address === childList[4]) {
-        this.currentAddress = childList[4];
-        amount = BigNumber.from(childList[5].trim() || 0);
-        bool = true;
-        break;
-      }
-    }
-    if (!bool) {
-      this.setState({
-        // isModalVisible: true
-        sashModalStatus: true,
-      });
-      return false;
-    }
-    this.setState({
-      disabled: false,
-      amount,
-    });
-    return true;
   };
 
   render() {
