@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { BigNumber, Contract } from 'ethers';
+import Web3 from 'web3';
 import UnderConstructionModal from '../../../components/UnderConstructionModal/UnderConstructionModal';
 import { Module } from './Module';
 import ClaimAirdrop from '../../../components/ClaimAirdrop/ClaimAirdrop';
@@ -31,7 +32,8 @@ type IMyComponentState = {
   type:string
 }
 type IMyComponentProps = {
-  provider: any
+  provider: any,
+  web3: Web3 | null,
 }
 
 export class Content extends React.Component<IMyComponentProps, IMyComponentState> {
@@ -270,7 +272,7 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
             close={this.handleBuySgmBondStatus}
             balances={this.state.balance}
           />
-          <ClaimAirdrop provider={this.provider} title="DBGT" close={this.handleAirdropStatus} status={this.state.claimAirdropStatus} currAddress={this.state.currentAddress} />
+          <ClaimAirdrop provider={this.provider} web3={this.props.web3} title="DBGT" close={this.handleAirdropStatus} status={this.state.claimAirdropStatus} currAddress={this.state.currentAddress} />
           <Proposals ref={this.proposals} provider={this.provider} onStackingDBGT={this.handleStackingDBGT} title="PROPOSALS" close={this.handleProposalsStatus} status={this.state.proposalsStatus} />
           <Module
             disView={disIsModal}

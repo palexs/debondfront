@@ -5,10 +5,12 @@ import {
 import axios from 'axios';
 import { BigNumber, Contract } from 'ethers';
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
+import Web3 from 'web3';
 import MyModal from '../Modal/Index';
 import styles from '../../views/bank/css/sash.module.css';
 import '../../views/bank/css/sash.css';
 import config from '../../config-test';
+import { ConfigType, getConfigForNet } from '../../config';
 import BalanceTree from '../../views/bank/tree/balance-tree';
 
 type Props = {
@@ -17,6 +19,7 @@ type Props = {
   title: string,
   currAddress: string,
   provider: any,
+  web3: Web3 | null,
 }
 
 type Item = { index: string, address: string, amount: string };
@@ -51,9 +54,9 @@ class ClaimAirdrop extends Component<Props, State> {
     this.getAirdropList();
   }
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
-    this.init();
-  }
+  // componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+  //   this.init();
+  // }
 
   init = async () => {
     const test = new Contract(config.externalTokens.BANKTEST[0], abiBankTest, this.props.provider);
@@ -93,12 +96,22 @@ class ClaimAirdrop extends Component<Props, State> {
     });
   };
 
-  getBalanceTree = (): BalanceTree => {
+  createBalanceTree = (): BalanceTree => {
     const result = this.state.dataSource.map((item: Item) => ({
       account: item.address,
       amount: BigNumber.from(item.amount.trim() || 0),
     }));
     return new BalanceTree(result);
+  };
+
+  getConfig = async (): Promise<ConfigType | null> => {
+    const netId: string | undefined = await this.props.web3?.eth.net.getNetworkType();
+    console.log('NETWORK_ID: ', netId);
+    if (netId === 'main' || netId === 'ropsten') {
+      return getConfigForNet(netId);
+    }
+    console.error('Unsupported Ethereum network! Please, make sure you are on Main or Ropsten net.');
+    return null;
   };
 
   refresh = async () => {
@@ -129,13 +142,35 @@ class ClaimAirdrop extends Component<Props, State> {
       });
       return;
     }
-    const tree = this.getBalanceTree();
+
+    const tree = this.createBalanceTree();
     const { index, address, amount } = curr[0];
     const idx = Number(index) - 1;
+    // const root = tree.getHexRoot();
     const proof0 = tree.getProof(idx, address, BigNumber.from(amount || 0));
-    const claimContract = new Contract(config.externalTokens.claim[0], abiClaim, this.props.provider);
+    // const node = BalanceTree.toNode(idx, address, BigNumber.from(amount));
+    const newConfig = await this.getConfig();
+    const claimContract = new Contract(newConfig?.claim[0], abiClaim, this.props.provider);
+
     try {
-      const claim = await claimContract.claimAirdrop(proof0, index || 0, address, BigNumber.from(amount || 0));
+      const hasClaimed = await claimContract.isClaimed(idx);
+      if (hasClaimed === true) {
+        notification.open({
+          message: 'Airdrop tokens have already been claimed.',
+          description: 'This address has already participated in the airdrop. Please, check your wallet.',
+          icon: <WarningOutlined style={{ color: '#faad14' }} />,
+        });
+        return;
+      }
+    } catch (e) {
+      notification.open({
+        message: 'Transaction has failed',
+        description: e.message,
+        icon: <WarningOutlined style={{ color: '#faad14' }} />,
+      });
+    }
+    try {
+      const claim = await claimContract.claim(idx || 0, address, BigNumber.from(amount || 0), proof0, { gasLimit: '125000' });
       if (claim) {
         notification.open({
           message: 'Transaction has succeeded',
@@ -146,7 +181,7 @@ class ClaimAirdrop extends Component<Props, State> {
     } catch (e) {
       notification.open({
         message: 'Transaction has failed',
-        description: 'Failed to claim airdrop.',
+        description: e.message,
         icon: <WarningOutlined style={{ color: '#faad14' }} />,
       });
     }

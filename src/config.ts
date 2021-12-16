@@ -34,5 +34,25 @@ const configurations: { [env: string]: any } = {
   },
 };
 
+export type ConfigType = {
+  claim: any[],
+  BANKTEST: any[],
+};
+
+export function getConfigForNet(netId: 'main' | 'ropsten'): ConfigType {
+  const config = {
+    main: {
+      claim: [],
+      BANKTEST: ['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A', 18],
+    },
+    ropsten: {
+      claim: ['0x4EC4793C8C4084ad1aE4E50DD466d38a373BaDdf', 18],
+      BANKTEST: ['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A', 18],
+    },
+  };
+
+  return config[netId] || {};
+}
+
 // export default configurations[process.env.NODE_ENV || "development"];
 export default configurations.production;

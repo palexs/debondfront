@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Web3 from 'web3';
 import { Content } from './component/Content';
 import styles from './css/gov.module.css';
 
@@ -10,7 +11,8 @@ type IMyComponentState = {
   amount: number;
 }
 type IMyComponentProps = {
-  provider: any
+  provider: any,
+  web3: Web3 | null,
 }
 
 export class Gov extends React.Component<IMyComponentProps, IMyComponentState> {
@@ -40,7 +42,7 @@ export class Gov extends React.Component<IMyComponentProps, IMyComponentState> {
     const { isModalVisible, disabled } = this.state;
     return (
       <div>
-        <div className={styles.content}><Content provider={this.props.provider} /></div>
+        <div className={styles.content}><Content provider={this.props.provider} web3={this.props.web3} /></div>
       </div>
     );
   }

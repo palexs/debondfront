@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BigNumber, Contract, utils } from 'ethers';
 import { notification, Input } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
+import Web3 from 'web3';
 import MyModal from '../../../components/Modal/Index';
 import { getDisplayBalance, getBalance, handleBalance } from '../../../eigma-cash/format_util';
 import config from '../../../config-production';
@@ -43,7 +44,8 @@ type State = {
   depositType:string
 }
 type Props = {
-  provider: any
+  provider: any,
+  web3: Web3 | null,
 }
 
 // const windowNew = window as any;/
@@ -445,7 +447,7 @@ export class Content extends Component<Props, State> {
           setAmount={this.setAmount}
         />
         {/* Pick up airdrop page */}
-        <ClaimAirdrop provider={this.props.provider} title="DBIT" status={this.state.sashModalStatus} close={this.handleSashClose} currAddress={this.state.currAddress} />
+        <ClaimAirdrop provider={this.props.provider} web3={this.props.web3} title="DBIT" status={this.state.sashModalStatus} close={this.handleSashClose} currAddress={this.state.currAddress} />
         {/* <Modal title="Basic Modal" visible={isModalVisible} onOk={this.handleOk} onCancel={this.handleCancel}> */}
         {/*  <p>You are not qualified for airdrop！</p> */}
         {/*  <p>You can view the airdrop list！<a href="http://localhost:3000/airdrop_list.csv">http://localhost:3000/airdrop_list.csv</a></p> */}

@@ -1,12 +1,79 @@
 [
   {
     "inputs": [],
-    "name": "Token_contract",
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Claimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "availability",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "uint256",
+        "name": "claimFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "claimTo",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "canClaim",
+    "outputs": [
+      {
+        "internalType": "bool",
         "name": "",
-        "type": "address"
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -15,32 +82,100 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32[]",
-        "name": "_proof",
-        "type": "bytes32[]"
-      },
-      {
         "internalType": "uint256",
-        "name": "airdrop_index",
+        "name": "index",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_to",
+        "name": "account",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "merkleProof",
+        "type": "bytes32[]"
       }
     ],
-    "name": "claimAirdrop",
+    "name": "claim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "merkleProof",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "claim_",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "claimFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "claimTo",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "merkleRoot",
+        "type": "bytes32"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address payable",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "airdropped",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Types.AirdropToken[]",
+        "name": "tokens_",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "defineAirDrop",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "address",
         "name": "",
-        "type": "bool"
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -49,56 +184,17 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      }
-    ],
-    "name": "claimStatus",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "claim_started",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "dev_address",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "event_end",
-    "outputs": [
-      {
         "internalType": "uint256",
-        "name": "",
+        "name": "index",
         "type": "uint256"
+      }
+    ],
+    "name": "isClaimed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -119,36 +215,50 @@
   },
   {
     "inputs": [],
-    "name": "merkleRoot_set",
+    "name": "owner",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "address",
         "name": "",
-        "type": "bool"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "proof",
-        "type": "bytes32[]"
-      },
       {
         "internalType": "bytes32",
         "name": "root",
         "type": "bytes32"
       },
       {
-        "internalType": "bytes32",
-        "name": "leaf",
-        "type": "bytes32"
+        "components": [
+          {
+            "internalType": "address payable",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "airdropped",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Types.AirdropToken[]",
+        "name": "tokens_",
+        "type": "tuple[]"
       }
     ],
-    "name": "merkleVerify",
+    "name": "setAirDrop",
     "outputs": [
       {
         "internalType": "bool",
@@ -156,54 +266,122 @@
         "type": "bool"
       }
     ],
-    "stateMutability": "pure",
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "root",
+        "type": "bytes32"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address payable",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "airdropped",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Types.AirdropToken[]",
+        "name": "tokens_",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "setAirDrop_",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "claimFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "claimTo",
+        "type": "uint256"
+      }
+    ],
+    "name": "setAvailability",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "root",
+        "type": "bytes32"
+      }
+    ],
+    "name": "setMerkleRoot",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokens",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address payable",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "airdropped",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Types.AirdropToken[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "token_address",
+        "name": "token",
         "type": "address"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_merkleRoot",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_total_airdrop",
-        "type": "uint256"
       }
     ],
-    "name": "setAirdrop",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "startClaim",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "time_now",
+    "name": "totalMinted",
     "outputs": [
       {
         "internalType": "uint256",
@@ -218,19 +396,13 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "newOwner",
         "type": "address"
       }
     ],
-    "name": "withdrawClaimed",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

@@ -48,7 +48,8 @@ type State = {
 };
 
 type Props = {
-  provider: any;
+  provider: (arg0: any) => void,
+  web3: (arg0: Web3) => void,
 };
 
 const { Panel } = Collapse;
@@ -142,16 +143,14 @@ export class HeaderNav extends Component<Props, State> {
       alert('It is detected that there is no metamask plug-in in the current browser!');
       web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     }
-    // Get network ID
     const web3 = new Web3(web3Provider);
-    const netId: string = await web3.eth.net.getNetworkType();
-    console.log('NETWORK_ID: ', netId);
 
     // Extract the user from the Meta Mask
     const provider = new ethers.providers.Web3Provider(web3Provider);
     const walletWithProvider = provider.getSigner();
     this.walletWithProvider = walletWithProvider;
     this.props.provider(walletWithProvider);
+    this.props.web3(web3);
   };
 
   initWallet = async () => {
