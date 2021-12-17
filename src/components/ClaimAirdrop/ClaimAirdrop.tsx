@@ -3,13 +3,12 @@ import {
   Row, Col, List, Button, notification,
 } from 'antd';
 import axios from 'axios';
-import { BigNumber, Contract } from 'ethers';
+import { BigNumber, Contract, ContractInterface } from 'ethers';
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import Web3 from 'web3';
 import MyModal from '../Modal/Index';
 import styles from '../../views/bank/css/sash.module.css';
 import '../../views/bank/css/sash.css';
-import config from '../../config-test';
 import { ConfigType, getConfigForNet } from '../../config';
 import BalanceTree from '../../views/bank/tree/balance-tree';
 
@@ -24,6 +23,11 @@ type Props = {
 
 type Item = { index: string, address: string, amount: string };
 
+type TokenBalance = {
+  balance: BigNumber,
+  locked: BigNumber,
+};
+
 type State = {
   dataSource: Array<Item>,
   balanceData: Array<{type: string, num: any, unit: string}>,
@@ -31,7 +35,8 @@ type State = {
 };
 
 const abiClaim = require('../../eigma-cash/deployments/claim.json');
-const abiBankTest = require('../../eigma-cash/deployments/bankTest.json');
+const abiSASHToken = require('../../eigma-cash/deployments/SASHtoken.json');
+const abiDBGTToken = require('../../eigma-cash/deployments/DBGTtoken.json');
 
 class ClaimAirdrop extends Component<Props, State> {
   static getTruncatedAddress(address: string, amount: number) {
@@ -54,18 +59,36 @@ class ClaimAirdrop extends Component<Props, State> {
     this.getAirdropList();
   }
 
-  // componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
-  //   this.init();
-  // }
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+    if (prevProps.currAddress !== this.props.currAddress) {
+      this.init();
+    }
+  }
 
-  init = async () => {
-    const test = new Contract(config.externalTokens.BANKTEST[0], abiBankTest, this.props.provider);
-    const balance = await test.getBalances();
-    const balanceData = ['DBIT BALANCE,DIBT Ⓘ', 'DBGT BALANCE,DBGT Ⓘ', 'LOCKED DIBT,DIBT Ⓘ', 'LOCKED DBGT,DBGT Ⓘ'].map((item: string, index: number) => ({
-      type: item.split(',')[0],
-      num: balance[index],
-      unit: item.split(',')[1],
-    }));
+  getTokenBalance = async (contractAddress: string, contractInterface: ContractInterface): Promise<TokenBalance> => {
+    const contract = new Contract(contractAddress, contractInterface, this.props.provider);
+    const balance = await contract.balanceOf(this.props.currAddress);
+    const locked = await contract.lockedBalance(this.props.currAddress);
+    return {
+      balance,
+      locked,
+    };
+  };
+
+  init = async (): Promise<void> => {
+    if (!this.props.currAddress) {
+      return;
+    }
+    const newConfig = await this.getConfig();
+    const SASHBalance = await this.getTokenBalance(newConfig?.SASHtoken[0], abiSASHToken);
+    const DBGTBalance = await this.getTokenBalance(newConfig?.DBGTtoken[0], abiDBGTToken);
+    const balanceData = [
+      { type: 'DBIT BALANCE', num: SASHBalance.balance.toNumber(), unit: 'DBIT Ⓘ' },
+      { type: 'DBGT BALANCE', num: SASHBalance.locked.toNumber(), unit: 'DBGT Ⓘ' },
+      { type: 'LOCKED DBIT', num: DBGTBalance.balance.toNumber(), unit: 'DBIT Ⓘ' },
+      { type: 'LOCKED DBGT', num: DBGTBalance.locked.toNumber(), unit: 'DBGT Ⓘ' },
+    ];
+
     this.setState({
       balanceData,
     });

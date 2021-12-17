@@ -37,6 +37,8 @@ const configurations: { [env: string]: any } = {
 export type ConfigType = {
   claim: any[],
   BANKTEST: any[],
+  SASHtoken: any[],
+  DBGTtoken: any[],
 };
 
 export function getConfigForNet(netId: 'main' | 'ropsten'): ConfigType {
@@ -44,10 +46,14 @@ export function getConfigForNet(netId: 'main' | 'ropsten'): ConfigType {
     main: {
       claim: [],
       BANKTEST: ['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A', 18],
+      SASHtoken: [],
+      DBGTtoken: [],
     },
     ropsten: {
       claim: ['0x4EC4793C8C4084ad1aE4E50DD466d38a373BaDdf', 18],
       BANKTEST: ['0x6B402F0A733A18028C67f870E3Dd11AFBc48dd7A', 18],
+      SASHtoken: ['0x3620C0AE6B42787d3EbaC6cd31F10f8770037b66', 18],
+      DBGTtoken: ['0xaf61172D83230800492EA98c461770791652b753', 18],
     },
   };
 

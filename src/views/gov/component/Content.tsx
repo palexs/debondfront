@@ -88,7 +88,7 @@ export class Content extends React.Component<IMyComponentProps, IMyComponentStat
       return;
     }
     this.provider = provider;
-    const abi = require('../../../eigma-cash/deployments/SASHTOKEN.json');
+    const abi = require('../../../eigma-cash/deployments/SASHtoken.json');
     const abiRouter = require('../../../eigma-cash/deployments/uniswapRouter.json');
     const abiBank = require('../../../eigma-cash/deployments/bank.json');
     if (this.provider) {

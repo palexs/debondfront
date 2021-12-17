@@ -17,7 +17,7 @@ import ClaimAirdrop from '../../../components/ClaimAirdrop/ClaimAirdrop';
 import Deposit from '../../../components/Deposit/Deposit';
 
 const abiERC20 = require('../../../eigma-cash/deployments/ERC20.json');
-const abiSASHTOKEN = require('../../../eigma-cash/deployments/SASHTOKEN.json');
+const abiSASHTOKEN = require('../../../eigma-cash/deployments/SASHtoken.json');
 const abiRouter = require('../../../eigma-cash/deployments/uniswapRouter.json');
 const abiBank = require('../../../eigma-cash/deployments/bank.json');
 
@@ -447,7 +447,7 @@ export class Content extends Component<Props, State> {
           setAmount={this.setAmount}
         />
         {/* Pick up airdrop page */}
-        <ClaimAirdrop provider={this.props.provider} web3={this.props.web3} title="DBIT" status={this.state.sashModalStatus} close={this.handleSashClose} currAddress={this.state.currAddress} />
+        {this.state.sashModalStatus && <ClaimAirdrop provider={this.props.provider} web3={this.props.web3} title="DBIT" status={this.state.sashModalStatus} close={this.handleSashClose} currAddress={this.state.currAddress} />}
         {/* <Modal title="Basic Modal" visible={isModalVisible} onOk={this.handleOk} onCancel={this.handleCancel}> */}
         {/*  <p>You are not qualified for airdrop！</p> */}
         {/*  <p>You can view the airdrop list！<a href="http://localhost:3000/airdrop_list.csv">http://localhost:3000/airdrop_list.csv</a></p> */}

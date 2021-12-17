@@ -83,40 +83,43 @@ export class App extends Component<Props, State> {
   };
 
   render() {
-    return (
-      <Layout className="container_main">
-        <Content>
-          <Router basename="/">
-            <Switch>
-              <Route path="/" exact>
-                <Info />
-              </Route>
-              <Route path="/bank">
-                <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
-                <Banks provider={this.state.provider} web3={this.state.web3} />
-              </Route>
-              <Route path="/gov">
-                <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
-                <Gov provider={this.state.provider} web3={this.state.web3} />
-              </Route>
-              <Route path="/bonds">
-                <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
-                <Bonds provider={this.setProvider} />
-              </Route>
-              <Route path="/loan">
-                <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
-                <Loan provider={this.state.provider} />
-              </Route>
-              <Route path="/ref">
-                <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
-                <Ref provider={this.state.provider} />
-              </Route>
-            </Switch>
-            <Footers />
-          </Router>
-        </Content>
-      </Layout>
-    );
+    if (this.state.web3 && this.state.provider) {
+      return (
+        <Layout className="container_main">
+          <Content>
+            <Router basename="/">
+              <Switch>
+                <Route path="/" exact>
+                  <Info />
+                </Route>
+                <Route path="/bank">
+                  <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
+                  <Banks provider={this.state.provider} web3={this.state.web3} />
+                </Route>
+                <Route path="/gov">
+                  <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
+                  <Gov provider={this.state.provider} web3={this.state.web3} />
+                </Route>
+                <Route path="/bonds">
+                  <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
+                  <Bonds provider={this.setProvider} />
+                </Route>
+                <Route path="/loan">
+                  <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
+                  <Loan provider={this.state.provider} />
+                </Route>
+                <Route path="/ref">
+                  <div className={styles.header}><HeaderNav provider={this.setProvider} web3={this.setWeb3} /></div>
+                  <Ref provider={this.state.provider} />
+                </Route>
+              </Switch>
+              <Footers />
+            </Router>
+          </Content>
+        </Layout>
+      );
+    }
+    return null;
   }
 }
 
