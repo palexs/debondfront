@@ -78,49 +78,45 @@ export class App extends Component<Props, State> {
     if (netId === 'main' || netId === 'ropsten') {
       return getConfigForNet(netId);
     }
-    console.error('Unsupported Ethereum network! Please, make sure you are on Main or Ropsten net.');
+    console.log('Unsupported Ethereum network! Please, make sure you are on Main or Ropsten net.');
     return null;
   };
 
   render() {
-    if (this.state.web3 && this.state.provider && this.state.config) {
-      return (
-        <Layout className="container_main">
-          <Content>
-            <Router basename="/">
-              <Switch>
-                <Route path="/" exact>
-                  <Info />
-                </Route>
-                <Route path="/bank">
-                  <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
-                  <Banks provider={this.state.provider} web3={this.state.web3} config={this.state.config} />
-                </Route>
-                <Route path="/gov">
-                  <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
-                  <Gov provider={this.state.provider} web3={this.state.web3} config={this.state.config} />
-                </Route>
-                <Route path="/bonds">
-                  <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
-                  <Bonds provider={this.state.provider} />
-                </Route>
-                <Route path="/loan">
-                  <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
-                  <Loan provider={this.state.provider} />
-                </Route>
-                <Route path="/ref">
-                  <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
-                  <Ref provider={this.state.provider} />
-                </Route>
-              </Switch>
-              <Footers />
-            </Router>
-          </Content>
-        </Layout>
-      );
-    }
-    // TODO: add UI
-    return null;
+    return (
+      <Layout className="container_main">
+        <Content>
+          <Router basename="/">
+            <Switch>
+              <Route path="/" exact>
+                <Info />
+              </Route>
+              <Route path="/bank">
+                <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
+                <Banks provider={this.state.provider} web3={this.state.web3} config={this.state.config} />
+              </Route>
+              <Route path="/gov">
+                <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
+                <Gov provider={this.state.provider} web3={this.state.web3} config={this.state.config} />
+              </Route>
+              <Route path="/bonds">
+                <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
+                <Bonds provider={this.state.provider} />
+              </Route>
+              <Route path="/loan">
+                <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
+                <Loan provider={this.state.provider} />
+              </Route>
+              <Route path="/ref">
+                <div className={styles.header}><HeaderNav signer={this.state.provider} /></div>
+                <Ref provider={this.state.provider} />
+              </Route>
+            </Switch>
+            <Footers />
+          </Router>
+        </Content>
+      </Layout>
+    );
   }
 }
 

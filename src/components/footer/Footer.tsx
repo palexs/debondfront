@@ -1,57 +1,53 @@
 import React from 'react';
+import { LinkedinFilled } from '@ant-design/icons';
 import styles from './css/footer.module.css';
 import icon1 from '../../assets/icon1.png';
 import icon2 from '../../assets/icon2.png';
-import icon3 from '../../assets/icon3.png';
-import icon4 from '../../assets/icon4.png';
 import icon5 from '../../assets/icon5.png';
 import icon6 from '../../assets/icon6.png';
-import icon7 from '../../assets/icon7.png';
-import logo1 from '../../assets/logo_footer.png';
 import UnderConstructionModal from '../UnderConstructionModal/UnderConstructionModal';
 
-type IMyComponentState = {}
-type IMyComponentProps = {}
+type Props = any
+type State = {
+  modalVisible: boolean,
+}
 
-export class Footers extends React.Component<IMyComponentProps, IMyComponentState> {
+export class Footers extends React.Component<Props, State> {
   state = {
-    visible: false,
+    modalVisible: false,
   };
 
-  public handleLink = () => {
+  renderLinks = () => {
     const list = [
-      { target: '_blank', name: 'About', link: 'https://sigma-protocol.medium.com/introducing-sigma-protocol-a-bond-based-decentralized-monetary-model-626801006af0' },
-      { target: '_blank', name: 'Github', link: 'https://github.com/Sigmoid-Protocol/' },
-      { target: '_blank', name: 'Telegram', link: 'https://t.co/HjENgoB8Gr?amp=1' },
-      { target: '_blank', name: 'Discord', link: 'https://discord.gg/GYdhhMhV' },
+      { target: '_blank', name: 'About', link: 'https://debond-protocol.medium.com/decentralized-bond-ecosystem-platform-debond-73868cd34480' },
+      { target: '_blank', name: 'Github', link: 'https://github.com/DeBond-Protocol/' },
+      { target: '_blank', name: 'Telegram', link: 'https://t.me/debond_protocol' },
       { target: '', name: 'Roadmap', link: '##' },
-      { target: '', name: 'Whitepaper', link: '##' },
-      { target: '_blank', name: 'Medium', link: 'https://sigma-protocol.medium.com/' },
-      { target: '_blank', name: 'Twitter', link: 'https://twitter.com/ProtocolSigma' },
+      { target: '_blank', name: 'White paper', link: 'https://github.com/DeBond-Protocol/DOC/blob/main/DEBOND_Whitepaper_v1.pdf' },
+      { target: '_blank', name: 'Medium', link: 'https://debond-protocol.medium.com/' },
+      { target: '_blank', name: 'Twitter', link: 'https://twitter.com/DebondProtocol/' },
       { target: '', name: 'Charts', link: '##' },
-      { target: '_blank', name: 'Contact', link: 'mailto:info@sgm.finance' },
+      { target: '_blank', name: 'Contact', link: 'mailto:info@debond.org' },
       { target: '', name: 'Governance Forum', link: '##' },
       { target: '', name: 'Voting Portal', link: '##' },
       { target: '', name: 'Documentation', link: '##' },
       { target: '', name: 'Community', link: '##' },
-      { target: '', name: 'Reddit', link: '##' },
+      { target: 'blank', name: 'LinkedIn', link: 'https://www.linkedin.com/company/debond-protocol/' },
       { target: '', name: 'Blog', link: '##' },
       { target: '', name: 'FAQ', link: '##' },
       { target: '', name: 'Help & Tutorials', link: '##' },
       { target: '', name: 'Logo & Brand', link: '##' },
     ];
-    return list.map((item, i) => (
+    return list.map((item) => (
       <a
         href={item.link}
         target={item.target}
-        onClick={(e) => {
-          if (item.link == '##') {
-            // e.target.
-            this.handleStatus();
-            return false;
+        onClick={(e): void => {
+          if (item.link === '##') {
+            this.toggleModal();
           }
         }}
-        key={i}
+        key={item.name}
         style={{ margin: '10px auto', width: 'fit-content', color: '#fff' }}
       >
         {item.name}
@@ -59,23 +55,17 @@ export class Footers extends React.Component<IMyComponentProps, IMyComponentStat
     ));
   };
 
-  /**
-   * Popover status switch
-   * */
-  public handleStatus = () => {
-    this.setState({
-      visible: !this.state.visible,
-    });
+  toggleModal = () => {
+    this.setState((state: State) => ({
+      modalVisible: !state.modalVisible,
+    }));
   };
 
-  /**
-   * Build a popover
-   * */
-  public modal = () => (
-    <UnderConstructionModal onCancel={this.handleStatus} visible={this.state.visible} />
+  renderModal = () => (
+    <UnderConstructionModal onCancel={this.toggleModal} visible={this.state.modalVisible} />
   );
 
-  public render() {
+  render() {
     return (
       <div className={styles.footerWrapper}>
         <div className={styles.footer}>
@@ -103,87 +93,77 @@ export class Footers extends React.Component<IMyComponentProps, IMyComponentStat
               <div className={styles.item1_item_font}>Info</div>
               <a
                 className={styles.link}
-                href="https://sigma-protocol.medium.com/introducing-sigma-protocol-a-bond-based-decentralized-monetary-model-626801006af0"
+                href="https://debond-protocol.medium.com/decentralized-bond-ecosystem-platform-debond-73868cd34480"
                 target="_blank"
                 rel="noreferrer"
               >
                 About
               </a>
-              <a className={styles.link} onClick={this.handleStatus}>Charts</a>
-              <a className={styles.link} href="mailto:info@sgm.finance">Contact</a>
-              <a className={styles.link} onClick={this.handleStatus}>Join us</a>
+              <a className={styles.link} onClick={this.toggleModal}>Charts</a>
+              <a className={styles.link} href="mailto:info@debond.org">Contact</a>
+              <a className={styles.link} onClick={this.toggleModal}>Join us</a>
             </div>
             <div className={styles.item1_item}>
               <div className={styles.item1_item_font}>Tech</div>
-              <a className={styles.link} href="https://github.com/Sigmoid-Protocol/" target="_blank" rel="noreferrer">Github</a>
+              <a className={styles.link} href="https://github.com/DeBond-Protocol/" target="_blank" rel="noreferrer">Github</a>
               <a className={styles.link} href="https://eips.ethereum.org/EIPS/eip-3475" target="_blank" rel="noreferrer">ERC-3475</a>
-              <a className={styles.link} onClick={this.handleStatus}>Roadmap</a>
-              <a className={styles.link} onClick={this.handleStatus}>White paper</a>
+              <a className={styles.link} onClick={this.toggleModal}>Roadmap</a>
+              <a className={styles.link} target="_blank" href="https://github.com/DeBond-Protocol/DOC/blob/main/DEBOND_Whitepaper_v1.pdf" rel="noreferrer">White paper</a>
             </div>
           </div>
           <div className={styles.item2}>
             <div className={styles.item2_item}>
-              <a target="_blank" href=" https://twitter.com/ProtocolSigma">
+              <a target="_blank" href="https://twitter.com/DebondProtocol" rel="noreferrer">
                 <img
                   src={icon1}
+                  alt=""
                 />
               </a>
             </div>
             <div className={styles.item2_item}>
-              <a target="_blank" href=" https://sigma-protocol.medium.com/">
+              <a target="_blank" href="https://debond-protocol.medium.com/" rel="noreferrer">
                 <img
                   src={icon2}
+                  alt=""
                 />
               </a>
             </div>
             <div className={styles.item2_item}>
-              <a target="_blank" onClick={this.handleStatus}>
-                <img
-                  src={icon3}
-                />
-              </a>
-            </div>
-            <div className={styles.item2_item}>
-              <a target="_blank" onClick={this.handleStatus}>
-                <img
-                  src={icon4}
-                />
-              </a>
-            </div>
-            <div className={styles.item2_item}>
-              <a target="_blank" href="https://github.com/Sigmoid-Protocol/" rel="noreferrer">
-                <img
-                  src={icon5}
-                />
-              </a>
-            </div>
-            <div className={styles.item2_item}>
-              <a target="_blank" href="https://t.me/sigma_protocol" rel="noreferrer">
+              <a target="_blank" href="https://t.me/debond_announcements" rel="noreferrer">
                 <img
                   src={icon6}
+                  alt=""
                 />
               </a>
             </div>
             <div className={styles.item2_item}>
-              <a target="_blank" href="https://discord.gg/GYdhhMhV" rel="noreferrer">
+              <a target="_blank" href="https://www.linkedin.com/company/debond-protocol/" rel="noreferrer">
+                <LinkedinFilled
+                  style={{
+                    fontSize: '41px', cursor: 'pointer', color: 'rgb(186,186,186)',
+                  }}
+                />
+              </a>
+            </div>
+            <div className={styles.item2_item}>
+              <a target="_blank" href="https://github.com/DeBond-Protocol/" rel="noreferrer">
                 <img
-                  src={icon7}
+                  src={icon5}
+                  alt=""
+                />
+              </a>
+            </div>
+            <div className={styles.item2_item}>
+              <a target="_blank" href="https://t.me/debond_protocol" rel="noreferrer">
+                <img
+                  src={icon6}
+                  alt=""
                 />
               </a>
             </div>
           </div>
           <div className={styles.item4}>
-            {/* <div>About</div>
-                        <div>Github</div>
-                        <div>Telegran</div>
-                        <div>Discord</div>
-                        <div>Roadmap</div>
-                        <div>Whitepaper</div>
-                        <div>Medium</div>
-                        <div>Twitter</div>
-                        <div>Charts</div>
-                        <div>Contact</div> */}
-            {this.handleLink()}
+            {this.renderLinks()}
           </div>
           <div className={styles.item3}>
             <p>© 2021 Sigmoid Labs, All Rights Reserved </p>
@@ -191,7 +171,7 @@ export class Footers extends React.Component<IMyComponentProps, IMyComponentStat
           </div>
 
         </div>
-        {this.modal()}
+        {this.renderModal()}
       </div>
     );
   }
